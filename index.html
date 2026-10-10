@@ -125,6 +125,7 @@
   body[data-frame="camera"] .cam-wrap{box-shadow:0 0 0 5px #3a3a3a, 0 0 0 9px #ff5c5c, 0 20px 40px rgba(0,0,0,.15);}
   body[data-frame="mixtape"] .cam-wrap{box-shadow:0 0 0 5px #17171c, 0 0 0 9px #fff, 0 20px 40px rgba(0,0,0,.15);}
   body[data-frame="happy"] .cam-wrap{box-shadow:0 0 0 5px #1c2b4a, 0 0 0 9px #f4c430, 0 20px 40px rgba(0,0,0,.15);}
+  body[data-frame="comic"] .cam-wrap{box-shadow:0 0 0 5px #000, 0 0 0 9px #e8392f, 0 20px 40px rgba(0,0,0,.15);}
   .aspect-btn{border:none;background:none;font-size:.74rem;padding:.35rem .7rem;border-radius:999px;cursor:pointer;color:#8a7178;}
   .aspect-btn.selected{background:var(--rose);color:#fff;}
 
@@ -147,6 +148,8 @@
   .fs-mixtape{background:linear-gradient(160deg,#2d2d2d,#121212);}
   .fs-happy{background:
     repeating-conic-gradient(#1c2b4a 0% 25%, #fff 0% 50%) 0 0/14px 14px;}
+  .fs-comic{background:
+    radial-gradient(circle, #000 1.6px, transparent 1.8px) 0 0/8px 8px, #e8392f;}
 
   .look-tray{display:flex;gap:.55rem;overflow-x:auto;padding:.3rem .3rem 1.2rem;max-width:420px;margin:0 auto;-webkit-overflow-scrolling:touch;}
   .look-swatch{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:.3rem;background:none;border:none;cursor:pointer;padding:.2rem;}
@@ -159,6 +162,13 @@
   .result-view h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.6rem;}
   #resultCanvas{margin-top:1.75rem;max-width:280px;width:100%;border-radius:8px;box-shadow:0 20px 44px rgba(0,0,0,.2);}
   .result-actions{margin-top:2rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+  .clips-box{margin-top:1.75rem;max-width:300px;margin-left:auto;margin-right:auto;}
+  .clips-title{font-size:.85rem;color:#8a7178;margin-bottom:.6rem;}
+  .clips-list{display:flex;flex-direction:column;gap:.5rem;}
+  .clip-row{display:flex;align-items:center;justify-content:space-between;background:#fff;
+    border:1px solid #f3dfe2;border-radius:12px;padding:.6rem .9rem;font-size:.85rem;color:var(--plum);}
+  .clip-row a{color:var(--rose);font-weight:600;text-decoration:none;font-size:.82rem;}
+  .clip-row a:hover{text-decoration:underline;}
   .qr-box{margin-top:2rem;padding:1.5rem;background:#fff;border-radius:16px;border:1px solid #f3dfe2;display:inline-block;}
   .qr-box p{font-size:.8rem;color:#8a7178;margin-top:.7rem;max-width:22ch;}
   #qrcode{display:flex;justify-content:center;}
@@ -325,6 +335,9 @@
       <button type="button" class="frame-swatch" data-frame="happy" aria-label="Happy checker frame">
         <span class="fs-preview fs-happy"></span><span class="fs-label">Happy</span>
       </button>
+      <button type="button" class="frame-swatch" data-frame="comic" aria-label="Comic hero frame">
+        <span class="fs-preview fs-comic"></span><span class="fs-label">Comic</span>
+      </button>
     </div>
     <div class="look-tray" id="lookTray" aria-label="Choose a photo look"></div>
     <div class="timer-tray" role="group" aria-label="Countdown timer">
@@ -345,6 +358,10 @@
     <div class="result-actions">
       <button class="primary-btn" id="downloadBtn">Download</button>
       <button class="ghost-btn" id="retakeBtn">Retake</button>
+    </div>
+    <div class="clips-box" id="clipsBox" style="display:none;">
+      <p class="clips-title">Your shot clips</p>
+      <div class="clips-list" id="clipsList"></div>
     </div>
     <div class="qr-box">
       <div id="qrcode"></div>
@@ -515,6 +532,14 @@
   let stream = null;
   let currentLayout = {poses:3, size:'6×2 strip', name:'Layout A'};
   let shots = [];
+  let videoClips = [];
+
+  function pickRecorderMime(){
+    if(!window.MediaRecorder) return null;
+    const options = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
+    for(const o of options){ if(MediaRecorder.isTypeSupported(o)) return o; }
+    return null;
+  }
 
   const video = document.getElementById('video');
   const countdownEl = document.getElementById('countdown');
@@ -530,6 +555,7 @@
       name: 'Layout ' + layoutBtn.dataset.layout
     };
     shots = [];
+    videoClips = [];
     camErrorEl.style.display='none';
     captureBtn.disabled = false;
     captureBtn.textContent = 'Start capturing';
@@ -648,10 +674,31 @@
   });
 
   function captureNextAuto(){
+    const mime = pickRecorderMime();
+    let recorder = null, chunks = [];
+    if(mime && stream){
+      try{
+        recorder = new MediaRecorder(stream, {mimeType: mime});
+        chunks = [];
+        recorder.ondataavailable = (e)=>{ if(e.data && e.data.size) chunks.push(e.data); };
+        recorder.start();
+      }catch(e){ recorder = null; }
+    }
+
     countdownThen(()=>{
       const snapped = snapFrame();
       shots.push(snapped);
       updateStripSlot(shots.length-1, snapped);
+
+      if(recorder && recorder.state !== 'inactive'){
+        recorder.onstop = ()=>{
+          videoClips.push(new Blob(chunks, {type: mime}));
+        };
+        recorder.stop();
+      }else{
+        videoClips.push(null);
+      }
+
       if(shots.length < currentLayout.poses){
         shotCountEl.textContent = 'Shot ' + (shots.length+1) + ' of ' + currentLayout.poses;
         markActiveSlot(shots.length);
@@ -675,6 +722,7 @@
 
   document.getElementById('retakeBtn').addEventListener('click', ()=>{
     shots = [];
+    videoClips = [];
     showView('camera');
     openCameraAgain();
   });
@@ -692,7 +740,7 @@
   document.body.dataset.frame = 'pop';
   const FRAME_COLORS = {
     pop:'#6fb7e0', moonlit:'#1c2b4a', sweet:'#c25a68', gingham:'#b22931',
-    filmstrip:'#161616', camera:'#3a3a3a', mixtape:'#17171c', happy:'#1c2b4a'
+    filmstrip:'#161616', camera:'#3a3a3a', mixtape:'#17171c', happy:'#1c2b4a', comic:'#e8392f'
   };
   const stripPreview = document.getElementById('stripPreview');
 
@@ -782,6 +830,22 @@
     ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx-s,cy-s*0.6); ctx.lineTo(cx-s,cy+s*0.6); ctx.closePath(); ctx.fill();
     ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+s,cy-s*0.6); ctx.lineTo(cx+s,cy+s*0.6); ctx.closePath(); ctx.fill();
     ctx.beginPath(); ctx.arc(cx,cy,s*0.28,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+  function burst(ctx,cx,cy,r,color){
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.beginPath();
+    const spikes = 12;
+    for(let i=0;i<spikes*2;i++){
+      const rad = i%2===0 ? r : r*0.55;
+      const ang = Math.PI/spikes*i;
+      ctx.lineTo(Math.cos(ang)*rad, Math.sin(ang)*rad);
+    }
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.strokeStyle = '#000'; ctx.lineWidth = 2.5;
+    ctx.fill(); ctx.stroke();
     ctx.restore();
   }
 
@@ -928,7 +992,7 @@
       ctx.fillStyle = '#fff'; ctx.font = '600 20px Fraunces, serif'; ctx.textAlign='center';
       ctx.fillText('Zenith Wave', w/2, h-24);
 
-    }else{ // happy checker
+    }else if(currentFrame === 'happy'){
       const cs = 16;
       for(let y=0;y<h;y+=cs){
         for(let x=0;x<w;x+=cs){
@@ -945,10 +1009,65 @@
       shots.forEach((sc,i)=>{ const y = border + i*(frameH+gap); ctx.drawImage(sc, border, y, frameW, frameH); });
       ctx.fillStyle = '#1c2b4a'; ctx.font = '900 20px Fraunces, serif'; ctx.textAlign='center';
       ctx.fillText('Zenith Wave', w/2, h-24);
+
+    }else{ // comic hero
+      ctx.fillStyle = '#e8392f'; ctx.fillRect(0,0,w,h);
+      // halftone dot texture
+      ctx.fillStyle = 'rgba(0,0,0,.35)';
+      for(let y=4; y<h; y+=8){
+        for(let x=4; x<w; x+=8){
+          ctx.beginPath(); ctx.arc(x,y,1.6,0,Math.PI*2); ctx.fill();
+        }
+      }
+      // thick black inner panel border
+      ctx.fillStyle = '#fff';
+      roundRect(ctx, border-10, border-10, w-(border-10)*2, h-titleH-(border-10), 6); ctx.fill();
+      ctx.strokeStyle = '#000'; ctx.lineWidth = 7;
+      roundRect(ctx, border-10, border-10, w-(border-10)*2, h-titleH-(border-10), 6); ctx.stroke();
+      shots.forEach((sc,i)=>{
+        const y = border + i*(frameH+gap);
+        ctx.strokeStyle = '#000'; ctx.lineWidth = 5;
+        ctx.strokeRect(border, y, frameW, frameH);
+        ctx.drawImage(sc, border, y, frameW, frameH);
+      });
+      // comic burst accent, top-right corner
+      burst(ctx, w-border-18, border+14, 26, '#f4c430');
+      ctx.fillStyle = '#e8392f'; ctx.font = '900 11px Fraunces, serif'; ctx.textAlign='center';
+      ctx.save(); ctx.translate(w-border-18, border+14); ctx.rotate(-0.12);
+      ctx.fillText('POW!', 0, 4);
+      ctx.restore();
+      // bottom badge
+      ctx.fillStyle = '#000';
+      roundRect(ctx, w/2-80, h-54, 160, 34, 17); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.font = '900 16px Fraunces, serif'; ctx.textAlign='center';
+      ctx.fillText('Zenith Wave', w/2, h-31);
     }
 
     showView('result');
     setupQR();
+    renderClipsList();
+  }
+
+  function renderClipsList(){
+    const box = document.getElementById('clipsBox');
+    const list = document.getElementById('clipsList');
+    list.innerHTML = '';
+    const anyClips = videoClips.some(c => c);
+    if(!anyClips){ box.style.display = 'none'; return; }
+    box.style.display = 'block';
+    videoClips.forEach((blob, i)=>{
+      if(!blob) return;
+      const row = document.createElement('div');
+      row.className = 'clip-row';
+      const url = URL.createObjectURL(blob);
+      row.innerHTML = '<span>Shot ' + (i+1) + ' (' + timerSeconds + 's)</span>';
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'zenith-wave-clip-' + (i+1) + '.webm';
+      a.textContent = 'Download';
+      row.appendChild(a);
+      list.appendChild(row);
+    });
   }
 
   function roundRect(ctx,x,y,w,h,r){
