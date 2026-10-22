@@ -6,7 +6,7 @@
 <title>Zenith Wave</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,900&family=Inter:wght@400;500;600&family=Caveat:wght@500;700&family=Patrick+Hand&family=Space+Mono&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clmtrackr/1.1.2/clmtrackr.min.js"></script>
 <!-- Firebase: only loads/works on a real host (e.g. GitHub Pages). Blocked inside the Claude.ai preview sandbox. -->
@@ -419,14 +419,14 @@
 
   /* ===================== AURORA GLASS (home / music / collection) ===================== */
   :root{--hot:#ff3d9a;--hot-d:#c2185b;}
-  body[data-view="hero"],body[data-view="music"],body[data-view="collection"]{
+  body[data-view="hero"],body[data-view="music"],body[data-view="collection"],body[data-view="notes"]{
     color:#f8e8f1;animation:none;background-size:auto;background-attachment:fixed;min-height:100vh;
     background:radial-gradient(900px 560px at 82% 4%,rgba(255,92,170,.42),transparent 62%),
                radial-gradient(800px 620px at 6% 94%,rgba(190,40,120,.38),transparent 62%),
                linear-gradient(155deg,#240c1e 0%,#4a1538 48%,#2a0e24 100%);}
-  body[data-view="hero"]::before,body[data-view="music"]::before,body[data-view="collection"]::before{
+  body[data-view="hero"]::before,body[data-view="music"]::before,body[data-view="collection"]::before,body[data-view="notes"]::before{
     background:radial-gradient(circle,rgba(255,120,195,.65) 0%,transparent 68%);opacity:.32;}
-  body[data-view="hero"]::after,body[data-view="music"]::after,body[data-view="collection"]::after{
+  body[data-view="hero"]::after,body[data-view="music"]::after,body[data-view="collection"]::after,body[data-view="notes"]::after{
     background:radial-gradient(circle,rgba(178,70,200,.6) 0%,transparent 68%);opacity:.3;}
   .glass{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.15);border-radius:28px;
     -webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);
@@ -437,7 +437,7 @@
     align-items:center;justify-content:space-between;gap:12px;border-radius:999px;
     background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.16);
     -webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);box-shadow:0 14px 40px rgba(20,0,16,.4),inset 0 1px 0 rgba(255,255,255,.2);}
-  body[data-view="hero"] .topnav,body[data-view="music"] .topnav,body[data-view="collection"] .topnav{display:flex;}
+  body[data-view="hero"] .topnav,body[data-view="music"] .topnav,body[data-view="collection"] .topnav,body[data-view="notes"] .topnav{display:flex;}
   .tn-brand{font-family:'Fraunces',serif;font-weight:900;font-size:1.05rem;display:flex;align-items:center;gap:.55rem;color:#fff;white-space:nowrap;}
   .tn-logo{width:22px;height:22px;border-radius:50%;background:conic-gradient(from 200deg,#ff3d9a,#b366ff,#19e3ff,#ff3d9a);box-shadow:0 0 14px rgba(255,61,154,.6);}
   .tn-tabs{display:flex;gap:4px;background:rgba(0,0,0,.2);padding:4px;border-radius:999px;border:1px solid rgba(255,255,255,.08);}
@@ -597,6 +597,90 @@
   .toast.show{opacity:1;transform:translate(-50%,0);}
   .saved-note{margin-top:.9rem;font-size:.76rem;color:#8f98ad;min-height:1em;}
   @media (prefers-reduced-motion:reduce){ .pl-cover.spin,.eq i{animation:none;} .cv-card,.cv-card:hover{transition:none;} .lightbox img{animation:none;} }
+
+  /* ===== NOTES (planner + notebook) ===== */
+  .notes-view{max-width:1180px;margin:0 auto;padding:1.6rem 1.2rem 9.5rem;}
+  .nt-head h2{font-family:'Fraunces',serif;font-size:2rem;color:#fff;} .nt-head p{color:#e9c0d6;font-size:.88rem;margin:.3rem 0 1rem;}
+  .nt-grid{display:grid;grid-template-columns:230px minmax(0,1fr);gap:18px;align-items:start;}
+  .nt-side{padding:16px;display:flex;flex-direction:column;gap:14px;}
+  .nt-side h4{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#f0b9d6;font-weight:600;margin-bottom:8px;}
+  .nt-layouts{display:flex;flex-direction:column;gap:8px;}
+  .nt-lay{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;border-radius:16px;padding:9px 11px;cursor:pointer;text-align:left;font-size:.84rem;font-weight:600;transition:.2s;}
+  .nt-lay svg{width:26px;height:26px;stroke:#ffd0e6;fill:none;stroke-width:1.6;flex:none;}
+  .nt-lay small{display:block;font-weight:400;color:#e2b6cd;font-size:.7rem;}
+  .nt-lay[aria-pressed="true"]{background:linear-gradient(135deg,#ff3d9a,#c2185b);border-color:transparent;box-shadow:0 8px 22px rgba(255,61,154,.35);}
+  .nt-lay[aria-pressed="true"] small{color:#ffe1ef;}
+  .nt-subjects{display:flex;flex-wrap:wrap;gap:6px;}
+  .nt-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:.74rem;font-weight:600;color:#fff;background:hsl(var(--h) 70% 45% / .55);border:1px solid hsl(var(--h) 80% 70% / .5);}
+  .nt-chip button{border:none;background:none;color:#fff;opacity:.7;cursor:pointer;font-size:.9rem;line-height:1;padding:0;}
+  .nt-addsub{display:flex;gap:6px;margin-top:8px;} .nt-addsub input{flex:1;min-width:0;}
+  .nt-in{border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.22);color:#fff;border-radius:12px;padding:.5rem .7rem;font-size:.82rem;font-family:inherit;}
+  .nt-in::placeholder{color:#d9a9c3;} .nt-in:focus{outline:2px solid #ff7ab8;outline-offset:1px;}
+  select.nt-in option{color:#222;}
+  .nt-main{display:flex;flex-direction:column;gap:18px;min-width:0;}
+  .nt-card{padding:18px;}
+  .nt-card h3{font-size:1rem;color:#fff;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+  .nt-nav{display:flex;align-items:center;gap:8px;}
+  .nt-nav button{width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:1rem;cursor:pointer;}
+  .nt-nav button.today{width:auto;padding:0 12px;border-radius:999px;font-size:.76rem;font-weight:600;}
+  .nt-nav b{min-width:140px;text-align:center;font-family:'Fraunces',serif;font-size:1.15rem;color:#fff;}
+  .nt-plan{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;}
+  .nt-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;}
+  .nt-cal .dow{font-size:.7rem;color:#e9bdd5;padding:4px 0;font-weight:600;}
+  .nt-day{position:relative;aspect-ratio:1;border:none;border-radius:50%;background:none;color:#fff;font-size:.88rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;}
+  .nt-day:hover{background:rgba(255,255,255,.14);} .nt-day.out{color:rgba(255,255,255,.35);}
+  .nt-day.today{box-shadow:inset 0 0 0 2px #ff7ab8;} .nt-day.sel{background:linear-gradient(135deg,#ff3d9a,#c2185b);font-weight:700;box-shadow:0 6px 16px rgba(255,61,154,.4);}
+  .nt-day i{position:absolute;bottom:14%;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#ffd36a;}
+  .nt-up{display:flex;flex-direction:column;gap:8px;}
+  .nt-upc{display:flex;align-items:center;gap:12px;border:none;width:100%;text-align:left;cursor:pointer;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:8px 12px;}
+  .nt-upc.sel{background:rgba(255,61,154,.35);border-color:rgba(255,160,205,.6);}
+  .nt-upc strong{font-size:1.5rem;font-family:'Fraunces',serif;width:34px;} .nt-upc span{font-size:.72rem;color:#f0cbe0;flex:1;}
+  .nt-upc em{font-style:normal;font-size:.76rem;font-weight:700;background:#ff5a6e;border-radius:999px;padding:3px 10px;} .nt-upc em.zero{background:rgba(255,255,255,.2);}
+  .nt-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;}
+  .nt-col{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:8px;min-height:150px;display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+  .nt-col.sel{border-color:#ff7ab8;background:rgba(255,61,154,.18);}
+  .nt-col header{text-align:center;font-size:.7rem;color:#f0cbe0;} .nt-col header b{display:block;font-size:1.25rem;color:#fff;font-family:'Fraunces',serif;}
+  .nt-pill{font-size:.7rem;border-radius:10px;padding:4px 6px;color:#fff;background:hsl(var(--h) 65% 42% / .75);overflow:hidden;text-overflow:ellipsis;}
+  .nt-pill.done{text-decoration:line-through;opacity:.55;} .nt-pill small{display:block;opacity:.8;font-size:.62rem;}
+  .nt-time{display:grid;grid-template-columns:48px 1fr;gap:0;}
+  .nt-time .hr{font-size:.7rem;color:#e9bdd5;padding:8px 0;border-top:1px solid rgba(255,255,255,.1);} .nt-time .slot{border-top:1px solid rgba(255,255,255,.1);padding:4px 0;display:flex;flex-direction:column;gap:4px;min-height:36px;}
+  .nt-tasks{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;max-height:260px;overflow:auto;}
+  .nt-task{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border-radius:14px;padding:8px 10px;border-left:4px solid hsl(var(--h) 80% 65%);}
+  .nt-task input[type=checkbox]{width:18px;height:18px;accent-color:#ff3d9a;flex:none;}
+  .nt-task span{flex:1;font-size:.85rem;color:#fff;min-width:0;overflow-wrap:anywhere;} .nt-task small{display:block;color:#e2b6cd;font-size:.68rem;}
+  .nt-task.done span{text-decoration:line-through;opacity:.55;}
+  .nt-task button{border:none;background:none;color:#fff;opacity:.6;cursor:pointer;font-size:1.1rem;}
+  .nt-empty{color:#e2b6cd;font-size:.82rem;padding:6px 2px;}
+  .nt-form{display:grid;grid-template-columns:1fr 100px;gap:8px;} .nt-form .full{grid-column:1/-1;}
+  .nt-form select{min-width:0;}
+  .nt-book{display:grid;grid-template-columns:200px minmax(0,1fr);gap:14px;}
+  .nt-notelist{display:flex;flex-direction:column;gap:8px;max-height:560px;overflow:auto;}
+  .nt-noteitem{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#fff;border-radius:14px;padding:9px 11px;cursor:pointer;text-align:left;border-left:4px solid hsl(var(--h) 80% 65%);}
+  .nt-noteitem.sel{background:rgba(255,61,154,.3);border-color:#ff7ab8;} .nt-noteitem b{display:block;font-size:.84rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;} .nt-noteitem small{color:#e2b6cd;font-size:.68rem;}
+  .nt-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px;padding:8px;border-radius:16px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.1);}
+  .nt-bar button{min-width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.1);color:#fff;font-size:.85rem;cursor:pointer;padding:0 8px;}
+  .nt-bar button:hover,.nt-bar button[aria-pressed="true"]{background:#ff3d9a;border-color:transparent;}
+  .nt-bar .sep{width:1px;height:22px;background:rgba(255,255,255,.2);margin:0 2px;}
+  .nt-hl{width:26px!important;min-width:26px!important;height:26px!important;border-radius:50%!important;padding:0!important;background:var(--c)!important;border:2px solid rgba(255,255,255,.7)!important;}
+  .nt-hl.on{box-shadow:0 0 0 3px #ff3d9a;}
+  .nt-title{width:100%;font-size:1.1rem;font-weight:600;margin-bottom:10px;}
+  .nt-meta{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+  .nt-paper{min-height:360px;border-radius:16px;padding:14px 18px;color:#2b2233;font-size:1rem;line-height:28px;outline:none;box-shadow:0 12px 30px rgba(0,0,0,.3);overflow-wrap:anywhere;background-color:#fffaf0;}
+  .nt-paper:focus{box-shadow:0 12px 30px rgba(0,0,0,.3),0 0 0 3px #ff7ab8;}
+  .nt-paper.ruled{background-image:linear-gradient(transparent 27px,#d9c9e8 27px);background-size:100% 28px;background-position:0 14px;}
+  .nt-paper.grid{background-image:linear-gradient(#e3d8f0 1px,transparent 1px),linear-gradient(90deg,#e3d8f0 1px,transparent 1px);background-size:28px 28px;}
+  .nt-paper.dots{background-image:radial-gradient(#cdbbe0 1.3px,transparent 1.5px);background-size:28px 28px;}
+  .nt-paper:empty:before{content:attr(data-ph);color:#a898b8;}
+  .nt-saved{font-size:.7rem;color:#e2b6cd;margin-top:6px;min-height:1em;}
+  .nt-del{margin-left:auto;}
+  .lb-clips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:92vw;} .lb-clips video{height:120px;border-radius:12px;background:#000;box-shadow:0 0 0 1px rgba(255,255,255,.2);}
+  .lightbox.has-clips img{max-height:52vh;}
+  .clip-row video{height:44px;border-radius:8px;margin-right:8px;}
+  @media (max-width:900px){
+    .nt-grid{grid-template-columns:1fr;} .nt-plan{grid-template-columns:1fr;} .nt-book{grid-template-columns:1fr;}
+    .nt-notelist{flex-direction:row;max-height:none;overflow-x:auto;} .nt-noteitem{min-width:140px;}
+    .nt-week{grid-template-columns:repeat(7,minmax(92px,1fr));overflow-x:auto;padding-bottom:6px;}
+  }
 </style>
 </head>
 <body>
@@ -607,6 +691,7 @@
     <button type="button" class="tn-tab" role="tab" data-go="hero" aria-selected="true"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.6-2.4h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span>Photobooth</span></button>
     <button type="button" class="tn-tab" role="tab" data-go="music" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg><span>Music</span></button>
     <button type="button" class="tn-tab" role="tab" data-go="collection" aria-selected="false"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg><span>Collection</span><b class="tn-count" id="tnCount" hidden>0</b></button>
+    <button type="button" class="tn-tab" role="tab" data-go="notes" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg><span>Notes</span></button>
   </div>
 </nav>
 
@@ -732,6 +817,60 @@
       <button type="button" class="mv-play" id="cvStart">Open the photobooth</button>
     </div>
     <div id="cvAlbums"></div>
+  </section>
+</div>
+
+<div id="viewNotes" class="view">
+  <section class="notes-view">
+    <header class="nt-head"><h2>Study notes</h2><p>Plan your week, then take notes with a highlighter and your favourite fonts.</p></header>
+    <div class="nt-grid">
+      <aside class="glass nt-side">
+        <div><h4>Schedule layout</h4>
+          <div class="nt-layouts">
+            <button type="button" class="nt-lay" data-lay="month" aria-pressed="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg><span>Calendar<small>Month + day list</small></span></button>
+            <button type="button" class="nt-lay" data-lay="week" aria-pressed="false"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 4v17M13 4v17M18 4v17"/></svg><span>Weekly<small>7 columns</small></span></button>
+            <button type="button" class="nt-lay" data-lay="day" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Daily timeline<small>Hour by hour</small></span></button>
+          </div></div>
+        <div><h4>Subjects</h4><div class="nt-subjects" id="ntSubjects"></div>
+          <form class="nt-addsub" id="ntAddSub"><input class="nt-in" id="ntSubName" placeholder="New subject" maxlength="20"><button class="mv-btn" type="submit">+</button></form></div>
+      </aside>
+      <div class="nt-main">
+        <div class="glass nt-card" id="ntPlanner"></div>
+        <div class="glass nt-card">
+          <h3><span>Notebook</span><button type="button" class="mv-btn" id="ntNewNote">+ New note</button></h3>
+          <div class="nt-book">
+            <div class="nt-notelist" id="ntNoteList"></div>
+            <div>
+              <p class="nt-empty" id="ntNoBook" hidden>No notes yet — tap “+ New note” to start one.</p>
+              <div id="ntBook">
+                <input class="nt-in nt-title" id="ntNoteTitle" placeholder="Note title" maxlength="80">
+                <div class="nt-meta">
+                  <select class="nt-in" id="ntNoteSub" aria-label="Subject"></select>
+                  <select class="nt-in" id="ntPaper" aria-label="Paper"><option value="ruled">Ruled paper</option><option value="grid">Grid paper</option><option value="dots">Dot paper</option><option value="plain">Plain paper</option></select>
+                  <button type="button" class="mv-btn nt-del" id="ntDelNote">Delete note</button>
+                </div>
+                <div class="nt-bar" role="toolbar" aria-label="Text tools">
+                  <select class="nt-in" id="ntFont" aria-label="Font"></select>
+                  <select class="nt-in" id="ntSize" aria-label="Size"><option value="3">Normal</option><option value="2">Small</option><option value="5">Large</option><option value="6">Huge</option></select>
+                  <span class="sep"></span>
+                  <button type="button" data-cmd="bold" aria-label="Bold"><b>B</b></button>
+                  <button type="button" data-cmd="italic" aria-label="Italic"><i>I</i></button>
+                  <button type="button" data-cmd="underline" aria-label="Underline"><u>U</u></button>
+                  <button type="button" data-cmd="insertUnorderedList" aria-label="Bullets">• List</button>
+                  <input type="color" id="ntColor" value="#2b2233" aria-label="Text colour" style="width:34px;height:34px;border:none;background:none;padding:0">
+                  <span class="sep"></span>
+                  <span id="ntHlColors" style="display:flex;gap:6px"></span>
+                  <button type="button" id="ntHlMode" aria-pressed="false">Highlighter</button>
+                  <button type="button" id="ntErase" title="Remove highlight">Erase</button>
+                </div>
+                <div class="nt-paper ruled" id="ntEditor" contenteditable="true" spellcheck="true" data-ph="Start typing… select text, then tap a highlighter colour."></div>
+                <p class="nt-saved" id="ntSaved"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </div>
 
@@ -884,6 +1023,7 @@
 
 <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo strip">
   <img id="lbImg" alt="Your photo strip">
+  <div class="lb-clips" id="lbClips"></div>
   <div class="lb-actions">
     <button type="button" id="lbDownload">Download</button>
     <button type="button" class="danger" id="lbDelete">Delete</button>
@@ -1120,7 +1260,7 @@ window.ZWAudio = (function(){
     loading: document.getElementById('viewLoading'),
     auth: document.getElementById('viewAuth'),
     redeem: document.getElementById('viewRedeem'),
-    hero: document.getElementById('viewHero'), music: document.getElementById('viewMusic'), collection: document.getElementById('viewCollection'), camera: document.getElementById('viewCamera'), result: document.getElementById('viewResult')
+    hero: document.getElementById('viewHero'), music: document.getElementById('viewMusic'), collection: document.getElementById('viewCollection'), notes: document.getElementById('viewNotes'), camera: document.getElementById('viewCamera'), result: document.getElementById('viewResult')
   };
   function showView(name){
     Object.values(views).forEach(v=>v.classList.remove('active'));
@@ -1527,6 +1667,7 @@ window.ZWAudio = (function(){
       if(recorder && recorder.state !== 'inactive'){
         recorder.onstop = ()=>{
           videoClips.push(new Blob(chunks, {type: mime}));
+          if(document.body.dataset.view==='result'){ renderClipsList(); zwSaveStrip(false); }
         };
         recorder.stop();
       }else{
@@ -1991,7 +2132,8 @@ window.ZWAudio = (function(){
       const row = document.createElement('div');
       row.className = 'clip-row';
       const url = URL.createObjectURL(blob);
-      row.innerHTML = '<span>Shot ' + (i+1) + ' (' + timerSeconds + 's)</span>';
+      row.innerHTML = '<span>Shot ' + (i+1) + '</span>';
+      const pv = document.createElement('video'); pv.src = url; pv.muted = true; pv.loop = true; pv.playsInline = true; pv.controls = true; pv.preload = 'metadata'; row.insertBefore(pv, row.firstChild);
       const a = document.createElement('a');
       a.href = url;
       a.download = 'zenith-wave-clip-' + (i+1) + '.webm';
@@ -2473,12 +2615,13 @@ window.ZWAudio = (function(){
     zwSyncChrome();
     if(name==='music') zwRenderMusic();
     if(name==='collection') zwRenderCollection();
+    if(name==='notes' && window.zwRenderNotes) window.zwRenderNotes();
     if(name==='hero') zwRefreshCount();
   };
   const playerBar = zwEl('playerBar'), musicBtn = zwEl('musicBtn');
   function zwSyncChrome(){
     const st = ZW.state();
-    const home = ['hero','music','collection'].indexOf(zwView) >= 0;
+    const home = ['hero','music','collection','notes'].indexOf(zwView) >= 0;
     playerBar.hidden = !(home && st.cur);
     musicBtn.hidden = !(zwView==='camera' && st.cur);
   }
@@ -2608,6 +2751,7 @@ window.ZWAudio = (function(){
   function zwNewStrip(){
     zwStripId = 'strip_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); zwStripTs = Date.now();
     zwSaveStrip(false);
+    setTimeout(()=>zwSaveStrip(false), 2500);
   }
   async function zwSaveStrip(announce){
     if(!zwStripId) return;
@@ -2618,7 +2762,7 @@ window.ZWAudio = (function(){
       const tw = Math.min(360,comp.width), th = Math.round(comp.height*tw/comp.width);
       const tc = document.createElement('canvas'); tc.width = tw; tc.height = th; tc.getContext('2d').drawImage(comp,0,0,tw,th);
       const thumb = await new Promise(r=>tc.toBlob(r,'image/jpeg',0.82));
-      await ZWDB.put('strips',{id:zwStripId,uid:zwUid(),ts:zwStripTs,layout:currentLayout.name,poses:shots.length,blob:full,thumb});
+      await ZWDB.put('strips',{id:zwStripId,uid:zwUid(),ts:zwStripTs,layout:currentLayout.name,poses:shots.length,blob:full,thumb,clips:videoClips.filter(Boolean)});
       note.textContent = 'Saved to your collection ✓';
       if(announce) zwToast('Saved to your collection');
       zwRefreshCount();
@@ -2674,15 +2818,18 @@ window.ZWAudio = (function(){
     zwRefreshCount();
   }
 
-  let zwLbUrl = null, zwLbRec = null, zwDelTimer = null;
+  let zwLbClipUrls = [], zwLbUrl = null, zwLbRec = null, zwDelTimer = null;
   const lightbox = zwEl('lightbox');
   function zwOpenLightbox(r){
     zwLbRec = r; zwLbUrl = URL.createObjectURL(r.blob);
     zwEl('lbImg').src = zwLbUrl; lightbox.hidden = false;
+    const cb = zwEl('lbClips'); cb.innerHTML=''; zwLbClipUrls.forEach(u=>URL.revokeObjectURL(u)); zwLbClipUrls=[];
+    (r.clips||[]).forEach(c=>{ const u=URL.createObjectURL(c); zwLbClipUrls.push(u); const v=document.createElement('video'); v.src=u; v.controls=true; v.muted=true; v.loop=true; v.playsInline=true; v.preload='metadata'; cb.appendChild(v); });
+    lightbox.classList.toggle('has-clips', (r.clips||[]).length>0);
     const db = zwEl('lbDelete'); db.textContent = 'Delete'; zwEl('lbClose').focus();
   }
   function zwCloseLightbox(){
-    lightbox.hidden = true; zwEl('lbImg').removeAttribute('src');
+    lightbox.hidden = true; zwEl('lbImg').removeAttribute('src'); zwEl('lbClips').innerHTML=''; zwLbClipUrls.forEach(u=>URL.revokeObjectURL(u)); zwLbClipUrls=[];
     if(zwLbUrl){ URL.revokeObjectURL(zwLbUrl); zwLbUrl = null; } zwLbRec = null; clearTimeout(zwDelTimer);
   }
   zwEl('lbClose').addEventListener('click', zwCloseLightbox);
@@ -2704,6 +2851,200 @@ window.ZWAudio = (function(){
   window.zwLoadUserTracks = zwLoadUserTracks;
   zwLoadUserTracks();
   zwRefreshCount();
+
+  /* ================= Notes: study planner + notebook ================= */
+  const NT_KEY = ()=> 'zw_notes_' + zwUid();
+  const NT_FONTS = [['Clean','Inter, sans-serif'],['Elegant','Fraunces, serif'],['Handwriting','Caveat, cursive'],['Notebook','"Patrick Hand", cursive'],['Typewriter','"Space Mono", monospace'],['Classic','Georgia, serif']];
+  const NT_HL = ['#fff176','#ff9ec7','#9af2b3','#8fd3ff','#ffc58a'];
+  let NT = null, ntSel = isoDay(new Date()), ntMonth = new Date(); ntMonth.setDate(1);
+  let ntNoteId = null, ntHl = NT_HL[0], ntHlMode = false, ntSaveTimer = null;
+  function isoDay(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function fromIso(s){ const p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+  function esc(t){ return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  function ntDefault(){ return {layout:'month',subjects:[{id:'s1',name:'Math',h:340},{id:'s2',name:'Science',h:150},{id:'s3',name:'English',h:45},{id:'s4',name:'History',h:210}],tasks:[],notes:[]}; }
+  function ntLoad(){
+    try{ const r = localStorage.getItem(NT_KEY()); NT = r ? Object.assign(ntDefault(), JSON.parse(r)) : ntDefault(); }catch(e){ NT = ntDefault(); }
+    ntNoteId = NT.notes.length ? NT.notes[0].id : null;
+  }
+  let ntLoadedFor = null;
+  function ntEnsure(){ if(ntLoadedFor!==zwUid() || !NT){ ntLoadedFor = zwUid(); ntLoad(); } }
+  function ntSave(){ try{ localStorage.setItem(NT_KEY(), JSON.stringify(NT)); return true; }catch(e){ return false; } }
+  function subj(id){ return NT.subjects.find(s=>s.id===id) || {name:'General',h:300}; }
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DOW = ['S','M','T','W','T','F','S'];
+  const DOWL = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  function ntRender(){
+    ntEnsure();
+    document.querySelectorAll('.nt-lay').forEach(b=> b.setAttribute('aria-pressed', String(b.dataset.lay===NT.layout)));
+    ntRenderSubjects(); ntRenderPlanner(); ntRenderNotes();
+  }
+  function ntRenderSubjects(){
+    const box = zwEl('ntSubjects'); box.innerHTML = '';
+    NT.subjects.forEach(s=>{
+      const c = document.createElement('span'); c.className='nt-chip'; c.style.setProperty('--h', s.h); c.textContent = s.name;
+      const x = document.createElement('button'); x.type='button'; x.textContent='×'; x.setAttribute('aria-label','Remove '+s.name);
+      x.addEventListener('click', ()=>{ if(NT.subjects.length<=1) return; NT.subjects = NT.subjects.filter(q=>q.id!==s.id); ntSave(); ntRender(); });
+      c.appendChild(x); box.appendChild(c);
+    });
+  }
+  zwEl('ntAddSub').addEventListener('submit', (e)=>{
+    e.preventDefault(); ntEnsure(); const i = zwEl('ntSubName'); const n = i.value.trim(); if(!n) return;
+    NT.subjects.push({id:'s'+Date.now().toString(36), name:n.slice(0,20), h:Math.floor(Math.random()*360)}); i.value=''; ntSave(); ntRender();
+  });
+  document.querySelectorAll('.nt-lay').forEach(b=> b.addEventListener('click', ()=>{ ntEnsure(); NT.layout = b.dataset.lay; ntSave(); ntRender(); }));
+
+  function tasksOn(d){ return NT.tasks.filter(t=>t.date===d).sort((a,b)=>(a.time||'99').localeCompare(b.time||'99')); }
+  function subjectOptions(){ return NT.subjects.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join(''); }
+  function taskRow(t){
+    const s = subj(t.subject);
+    const el = document.createElement('div'); el.className = 'nt-task'+(t.done?' done':''); el.style.setProperty('--h', s.h);
+    el.innerHTML = '<input type="checkbox" '+(t.done?'checked':'')+' aria-label="Done"><span>'+esc(t.title)+'<small>'+esc(s.name)+(t.time?' · '+esc(t.time):'')+'</small></span><button type="button" aria-label="Delete task">×</button>';
+    el.querySelector('input').addEventListener('change', e=>{ t.done = e.target.checked; ntSave(); ntRenderPlanner(); });
+    el.querySelector('button').addEventListener('click', ()=>{ NT.tasks = NT.tasks.filter(q=>q.id!==t.id); ntSave(); ntRenderPlanner(); });
+    return el;
+  }
+  function pill(t){ const s=subj(t.subject); const p=document.createElement('div'); p.className='nt-pill'+(t.done?' done':''); p.style.setProperty('--h',s.h); p.innerHTML = esc(t.title)+'<small>'+(t.time?esc(t.time)+' · ':'')+esc(s.name)+'</small>'; return p; }
+  function dayCard(d, isSel){
+    const dt = fromIso(d), n = tasksOn(d).length;
+    const b = document.createElement('button'); b.type='button'; b.className='nt-upc'+(isSel?' sel':'');
+    b.innerHTML = '<strong>'+dt.getDate()+'</strong><span>'+MONTHS[dt.getMonth()]+' '+dt.getFullYear()+'<br>'+DOWL[dt.getDay()]+'</span><em class="'+(n?'':'zero')+'">'+n+'</em>';
+    b.addEventListener('click', ()=>{ ntSel = d; ntRenderPlanner(); }); return b;
+  }
+  function ntRenderPlanner(){
+    const root = zwEl('ntPlanner'); root.innerHTML = '';
+    const selDate = fromIso(ntSel);
+    const nav = document.createElement('div'); nav.className='nt-nav';
+    function step(dir){
+      if(NT.layout==='month'){ ntMonth = new Date(ntMonth.getFullYear(), ntMonth.getMonth()+dir, 1); }
+      else { const d = fromIso(ntSel); d.setDate(d.getDate() + dir*(NT.layout==='week'?7:1)); ntSel = isoDay(d); ntMonth = new Date(d.getFullYear(), d.getMonth(), 1); }
+      ntRenderPlanner();
+    }
+    let title;
+    if(NT.layout==='month') title = MONTHS[ntMonth.getMonth()]+' '+ntMonth.getFullYear();
+    else if(NT.layout==='week'){ const s=new Date(selDate); s.setDate(s.getDate()-s.getDay()); const e=new Date(s); e.setDate(e.getDate()+6); title = MONTHS[s.getMonth()].slice(0,3)+' '+s.getDate()+' – '+(s.getMonth()!==e.getMonth()?MONTHS[e.getMonth()].slice(0,3)+' ':'')+e.getDate(); }
+    else title = DOWL[selDate.getDay()]+', '+MONTHS[selDate.getMonth()].slice(0,3)+' '+selDate.getDate();
+    nav.innerHTML = '<button type="button" aria-label="Previous">‹</button><b>'+title+'</b><button type="button" aria-label="Next">›</button><button type="button" class="today">Today</button>';
+    const [bp,,bn,bt] = nav.children; bp.onclick=()=>step(-1); bn.onclick=()=>step(1);
+    bt.onclick=()=>{ const t=new Date(); ntSel=isoDay(t); ntMonth=new Date(t.getFullYear(),t.getMonth(),1); ntRenderPlanner(); };
+    const head = document.createElement('h3'); head.innerHTML = '<span>Study schedule</span>'; head.appendChild(nav); root.appendChild(head);
+
+    const daily = document.createElement('div'); // right-hand "selected day" panel
+    daily.innerHTML = '<h3 style="margin-bottom:8px"><span></span></h3><div class="nt-tasks"></div>'+
+      '<form class="nt-form"><input class="nt-in full" name="t" placeholder="Add a task or class…" maxlength="80" required><select class="nt-in" name="s" aria-label="Subject">'+subjectOptions()+'</select><input class="nt-in" type="time" name="tm" aria-label="Time"><button class="mv-play full" style="margin:0;justify-content:center" type="submit">Add to schedule</button></form>';
+    daily.querySelector('h3 span').textContent = (ntSel===isoDay(new Date())?'Today · ':'')+DOWL[selDate.getDay()]+', '+MONTHS[selDate.getMonth()]+' '+selDate.getDate();
+    const list = daily.querySelector('.nt-tasks'); const todays = tasksOn(ntSel);
+    if(!todays.length){ const p=document.createElement('p'); p.className='nt-empty'; p.textContent='Nothing planned. Add a class, homework or exam below.'; list.appendChild(p); }
+    todays.forEach(t=>list.appendChild(taskRow(t)));
+    daily.querySelector('form').addEventListener('submit', e=>{
+      e.preventDefault(); const f=e.target;
+      NT.tasks.push({id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,4), date:ntSel, time:f.tm.value, title:f.t.value.trim(), subject:f.s.value, done:false});
+      ntSave(); ntRenderPlanner();
+    });
+
+    if(NT.layout==='month'){
+      const wrap = document.createElement('div'); wrap.className='nt-plan';
+      const left = document.createElement('div'); const cal = document.createElement('div'); cal.className='nt-cal';
+      DOW.forEach(d=>{ const s=document.createElement('div'); s.className='dow'; s.textContent=d; cal.appendChild(s); });
+      const first = new Date(ntMonth.getFullYear(), ntMonth.getMonth(), 1); const start = new Date(first); start.setDate(1-first.getDay());
+      const today = isoDay(new Date());
+      for(let i=0;i<42;i++){
+        const d = new Date(start); d.setDate(start.getDate()+i); const key = isoDay(d);
+        const b = document.createElement('button'); b.type='button'; b.className='nt-day'+(d.getMonth()!==ntMonth.getMonth()?' out':'')+(key===today?' today':'')+(key===ntSel?' sel':'');
+        b.textContent = d.getDate(); b.setAttribute('aria-label', d.toDateString());
+        if(tasksOn(key).length){ b.appendChild(document.createElement('i')); }
+        b.addEventListener('click', ()=>{ ntSel = key; if(d.getMonth()!==ntMonth.getMonth()) ntMonth=new Date(d.getFullYear(),d.getMonth(),1); ntRenderPlanner(); });
+        cal.appendChild(b);
+      }
+      left.appendChild(cal);
+      const up = document.createElement('div'); up.className='nt-up'; up.style.marginTop='14px';
+      for(let i=0;i<3;i++){ const d=fromIso(ntSel); d.setDate(d.getDate()+i); up.appendChild(dayCard(isoDay(d), i===0)); }
+      left.appendChild(up);
+      wrap.appendChild(left); wrap.appendChild(daily); root.appendChild(wrap);
+    } else if(NT.layout==='week'){
+      const week = document.createElement('div'); week.className='nt-week';
+      const s = new Date(selDate); s.setDate(s.getDate()-s.getDay());
+      for(let i=0;i<7;i++){
+        const d = new Date(s); d.setDate(s.getDate()+i); const key = isoDay(d);
+        const col = document.createElement('div'); col.className='nt-col'+(key===ntSel?' sel':''); col.tabIndex=0;
+        col.innerHTML = '<header>'+DOWL[d.getDay()]+'<b>'+d.getDate()+'</b></header>';
+        tasksOn(key).forEach(t=>col.appendChild(pill(t)));
+        const go=()=>{ ntSel=key; ntRenderPlanner(); }; col.addEventListener('click', go); col.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+        week.appendChild(col);
+      }
+      root.appendChild(week); const sp=document.createElement('div'); sp.style.height='16px'; root.appendChild(sp); root.appendChild(daily);
+    } else {
+      const wrap = document.createElement('div'); wrap.className='nt-plan';
+      const tl = document.createElement('div'); tl.className='nt-time';
+      const todays2 = tasksOn(ntSel);
+      const unsched = todays2.filter(t=>!t.time);
+      for(let h=6; h<=21; h++){
+        const hh = String(h).padStart(2,'0');
+        const hr = document.createElement('div'); hr.className='hr'; hr.textContent = (h%12||12)+(h<12?' AM':' PM');
+        const slot = document.createElement('div'); slot.className='slot';
+        todays2.filter(t=>t.time && t.time.slice(0,2)===hh).forEach(t=>slot.appendChild(pill(t)));
+        tl.appendChild(hr); tl.appendChild(slot);
+      }
+      const left = document.createElement('div');
+      if(unsched.length){ const u=document.createElement('div'); u.style.marginBottom='10px'; unsched.forEach(t=>{ const p=pill(t); p.style.marginBottom='4px'; u.appendChild(p); }); left.appendChild(u); }
+      left.appendChild(tl); wrap.appendChild(left); wrap.appendChild(daily); root.appendChild(wrap);
+    }
+  }
+
+  /* -- notebook -- */
+  const ntEditor = zwEl('ntEditor'), ntTitle = zwEl('ntNoteTitle'), ntPaper = zwEl('ntPaper'), ntNoteSub = zwEl('ntNoteSub');
+  function curNote(){ return NT.notes.find(n=>n.id===ntNoteId); }
+  function ntRenderNotes(){
+    const list = zwEl('ntNoteList'); list.innerHTML='';
+    NT.notes.forEach(n=>{
+      const b=document.createElement('button'); b.type='button'; b.className='nt-noteitem'+(n.id===ntNoteId?' sel':''); b.style.setProperty('--h', subj(n.subject).h);
+      const t=document.createElement('b'); t.textContent = n.title || 'Untitled'; const s=document.createElement('small'); s.textContent = subj(n.subject).name+' · '+new Date(n.ts).toLocaleDateString(undefined,{month:'short',day:'numeric'});
+      b.appendChild(t); b.appendChild(s); b.addEventListener('click', ()=>{ ntFlush(); ntNoteId=n.id; ntRenderNotes(); }); list.appendChild(b);
+    });
+    const n = curNote(); zwEl('ntBook').hidden = !n; zwEl('ntNoBook').hidden = !!n;
+    if(!n) return;
+    ntTitle.value = n.title||''; ntEditor.innerHTML = n.html||''; ntPaper.value = n.paper||'ruled'; ntEditor.className='nt-paper '+(n.paper||'ruled');
+    ntNoteSub.innerHTML = subjectOptions(); ntNoteSub.value = n.subject || NT.subjects[0].id;
+  }
+  function ntFlush(){ clearTimeout(ntSaveTimer); const n=curNote(); if(!n) return; n.html = ntEditor.innerHTML; n.title = ntTitle.value; n.paper = ntPaper.value; n.subject = ntNoteSub.value; n.ts = Date.now(); ntSave(); }
+  function ntQueue(){
+    clearTimeout(ntSaveTimer); zwEl('ntSaved').textContent = 'Saving…';
+    ntSaveTimer = setTimeout(()=>{ ntFlush(); zwEl('ntSaved').textContent = 'Saved on this device ✓'; const sel=document.querySelector('.nt-noteitem.sel b'); if(sel) sel.textContent = ntTitle.value||'Untitled'; }, 450);
+  }
+  zwEl('ntNewNote').addEventListener('click', ()=>{
+    ntEnsure(); ntFlush();
+    const n = {id:'n'+Date.now().toString(36), title:'', html:'', paper:'ruled', subject:NT.subjects[0].id, ts:Date.now()};
+    NT.notes.unshift(n); ntNoteId = n.id; ntSave(); ntRenderNotes(); ntTitle.focus();
+  });
+  zwEl('ntDelNote').addEventListener('click', ()=>{
+    const b = zwEl('ntDelNote');
+    if(b.dataset.armed!=='1'){ b.dataset.armed='1'; b.textContent='Tap again to delete'; setTimeout(()=>{ b.dataset.armed=''; b.textContent='Delete note'; },2600); return; }
+    b.dataset.armed=''; b.textContent='Delete note';
+    NT.notes = NT.notes.filter(n=>n.id!==ntNoteId); ntNoteId = NT.notes.length?NT.notes[0].id:null; ntSave(); ntRenderNotes();
+  });
+  ntTitle.addEventListener('input', ntQueue); ntEditor.addEventListener('input', ntQueue);
+  ntPaper.addEventListener('change', ()=>{ ntEditor.className='nt-paper '+ntPaper.value; ntQueue(); });
+  ntNoteSub.addEventListener('change', ()=>{ ntQueue(); ntFlush(); ntRenderNotes(); });
+  ntEditor.addEventListener('paste', e=>{ e.preventDefault(); const t=(e.clipboardData||window.clipboardData).getData('text/plain'); document.execCommand('insertText', false, t); });
+  // toolbar
+  const fontSel = zwEl('ntFont'); NT_FONTS.forEach(f=>{ const o=document.createElement('option'); o.value=f[1]; o.textContent=f[0]; o.style.fontFamily=f[1]; fontSel.appendChild(o); });
+  const hlBox = zwEl('ntHlColors');
+  NT_HL.forEach((c,i)=>{ const b=document.createElement('button'); b.type='button'; b.className='nt-hl'+(i===0?' on':''); b.style.setProperty('--c',c); b.setAttribute('aria-label','Highlighter '+c); b.dataset.c=c;
+    b.addEventListener('mousedown', e=>e.preventDefault());
+    b.addEventListener('click', ()=>{ ntHl=c; hlBox.querySelectorAll('.nt-hl').forEach(x=>x.classList.toggle('on',x===b)); ntApplyHl(); }); hlBox.appendChild(b); });
+  function ntCmd(cmd,val){ ntEditor.focus(); document.execCommand('styleWithCSS', false, true); document.execCommand(cmd,false,val||null); ntQueue(); }
+  function ntApplyHl(){ const s=window.getSelection(); if(s && !s.isCollapsed && ntEditor.contains(s.anchorNode)) ntCmd('hiliteColor', ntHl); }
+  document.querySelectorAll('[data-cmd]').forEach(b=>{ b.addEventListener('mousedown', e=>e.preventDefault()); b.addEventListener('click', ()=> ntCmd(b.dataset.cmd, b.dataset.val)); });
+  fontSel.addEventListener('change', ()=>{ ntCmd('fontName', fontSel.value.split(',')[0].replace(/"/g,'')); });
+  zwEl('ntSize').addEventListener('change', e=>{ ntCmd('fontSize', e.target.value); });
+  zwEl('ntColor').addEventListener('input', e=>{ ntCmd('foreColor', e.target.value); });
+  zwEl('ntErase').addEventListener('mousedown', e=>e.preventDefault());
+  zwEl('ntErase').addEventListener('click', ()=> ntCmd('hiliteColor','transparent'));
+  const hlMode = zwEl('ntHlMode'); hlMode.addEventListener('mousedown', e=>e.preventDefault());
+  hlMode.addEventListener('click', ()=>{ ntHlMode=!ntHlMode; hlMode.setAttribute('aria-pressed', String(ntHlMode)); hlMode.textContent = ntHlMode?'Highlighter ON':'Highlighter'; });
+  ['mouseup','touchend'].forEach(ev=> ntEditor.addEventListener(ev, ()=>{ if(ntHlMode) setTimeout(ntApplyHl, 0); }));
+  window.zwRenderNotes = ntRender;
+
 })();
 </script>
 
