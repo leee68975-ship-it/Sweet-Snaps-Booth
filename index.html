@@ -782,6 +782,13 @@
     .ly-side{display:grid;grid-template-columns:64px 1fr;gap:4px 12px;align-items:center;} .ly-cover{width:64px;border-radius:12px;grid-row:1/3;} .ly-seek{grid-column:1/-1;} .ly-ctrl{grid-column:1/-1;gap:34px;} .ly-edit-btn{display:none;}
     .ly-main{height:100%;} .ly-body{padding:10vh 4px 40vh;} .ly-line{font-size:clamp(1.4rem,6vw,1.9rem);}
   }
+
+  /* ===== update notice ===== */
+  .upd{position:fixed;left:50%;top:14px;transform:translate(-50%,-140%);z-index:150;display:flex;align-items:center;gap:12px;max-width:min(560px,calc(100% - 24px));padding:10px 12px 10px 18px;border-radius:999px;color:#fff;font-size:.84rem;font-weight:600;
+    background:linear-gradient(135deg,rgba(255,61,154,.92),rgba(150,30,120,.94));box-shadow:0 14px 40px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.25);transition:transform .5s cubic-bezier(.2,.9,.25,1);}
+  .upd.show{transform:translate(-50%,0);} .upd span{flex:1;min-width:0;line-height:1.3;} .upd small{display:block;font-weight:400;opacity:.85;font-size:.72rem;}
+  .upd button{border:none;border-radius:999px;padding:.5rem 1rem;font-weight:700;font-size:.78rem;cursor:pointer;background:#fff;color:#8a1050;} .upd button.ghost{background:rgba(255,255,255,.2);color:#fff;}
+  @media (max-width:520px){ .upd{border-radius:22px;flex-wrap:wrap;} .upd span{flex-basis:100%;} }
 </style>
 </head>
 <body data-ntheme="aurora">
@@ -1175,6 +1182,7 @@
     </section>
   </div>
 </div>
+<div class="upd" id="updBar" role="status" aria-live="polite"><span id="updText"></span><button type="button" id="updGo">Refresh</button><button type="button" class="ghost" id="updLater">Later</button></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 
@@ -1416,6 +1424,7 @@ window.ZWAudio = (function(){
     document.body.dataset.view = name;
     if(name==='hero') document.querySelectorAll('.card.selected').forEach(c=>c.classList.remove('selected'));
     if(window.zwOnView) window.zwOnView(name);
+    if(window.zwUpdOnView) window.zwUpdOnView();
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
@@ -3287,6 +3296,38 @@ window.ZWAudio = (function(){
   function ntApplyTheme(){ document.body.dataset.ntheme = NT.theme || 'aurora'; document.querySelectorAll('.nt-th').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.th===(NT.theme||'aurora')))); }
   document.querySelectorAll('.nt-th').forEach(b=> b.addEventListener('click', ()=>{ ntEnsure(); NT.theme=b.dataset.th; ntSave(); ntApplyTheme(); }));
   window.zwRenderNotes = function(){ ntRender(); ntApplyTheme(); };
+
+
+  /* ================= Update notice ================= */
+  const APP_VERSION = '1.0.0';
+  (function(){
+    const bar = zwEl('updBar'), txt = zwEl('updText'), go = zwEl('updGo'), later = zwEl('updLater');
+    let pending = null, shown = false;
+    function show(p){
+      txt.innerHTML = ''; const b = document.createElement('b'); b.textContent = p.title; txt.appendChild(b);
+      if(p.sub){ const sm = document.createElement('small'); sm.textContent = p.sub; txt.appendChild(sm); }
+      go.style.display = p.update ? '' : 'none'; later.textContent = p.update ? 'Later' : 'OK';
+      bar.classList.add('show'); shown = true; bar.dataset.kind = p.update ? 'update' : 'notice'; bar.dataset.key = p.key;
+    }
+    function maybeShow(){ if(!pending || shown) return; if(zwView==='camera') return; show(pending); }
+    window.zwUpdOnView = maybeShow;
+    async function check(){
+      try{
+        const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'}); if(!r.ok) return;
+        const j = await r.json(); let dismissed = '';
+        try{ dismissed = sessionStorage.getItem('zw_dismiss') || ''; }catch(e){}
+        if(j.version && j.version !== APP_VERSION){ const k = 'v'+j.version; if(dismissed!==k) pending = {update:true, key:k, title:'New update available', sub: (j.notice||'Refresh to get the latest version. Your saved strips and notes are kept.'), ver:j.version}; }
+        else if(j.notice && j.notice.trim()){ const k = 'n'+(j.noticeId||j.notice); if(dismissed!==k) pending = {update:false, key:k, title:j.notice.trim().slice(0,160)}; }
+        else if(pending && !pending.update){ pending = null; if(shown && bar.dataset.kind==='notice'){ bar.classList.remove('show'); shown=false; } }
+        maybeShow();
+      }catch(e){}
+    }
+    window.zwCheckUpdate = check;
+    go.addEventListener('click', ()=>{ const v = pending && pending.ver || Date.now(); location.replace(location.pathname + '?v=' + encodeURIComponent(v)); });
+    later.addEventListener('click', ()=>{ try{ sessionStorage.setItem('zw_dismiss', bar.dataset.key||''); }catch(e){} bar.classList.remove('show'); shown=false; pending=null; });
+    setTimeout(check, 3000); setInterval(check, 5*60*1000);
+    document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') check(); });
+  })();
 
 })();
 </script>
