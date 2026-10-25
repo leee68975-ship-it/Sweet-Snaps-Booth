@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
-  "notice": "New: profiles! Tap your photo at the top to make yours.",
+  "version": "1.1.1",
+  "notice": "Fixed: photos taken on phones are no longer stretched.",
   "noticeId": ""
 }
