@@ -1696,7 +1696,7 @@ window.ZWAudio = (function(){
       ? {w:720,h:960,ar:0.75}
       : {w:960,h:720,ar:1.3333};
     const videoConstraints = currentDeviceId
-      ? { deviceId:{exact:currentDeviceId}, width:{ideal:dims.w}, height:{ideal:dims.h} }
+      ? { deviceId:{exact:currentDeviceId}, width:{ideal:dims.w}, height:{ideal:dims.h}, aspectRatio:{ideal:dims.ar} }
       : { facingMode:'user', width:{ideal:dims.w}, height:{ideal:dims.h}, aspectRatio:{ideal:dims.ar} };
     try{
       stream = await navigator.mediaDevices.getUserMedia({video:videoConstraints, audio:false});
@@ -2104,7 +2104,7 @@ window.ZWAudio = (function(){
       star(ctx, w-border-6, border+6, 11, '#ff6b81');
       star(ctx, border+6, h-titleH-6, 9, '#ff6b81');
       star(ctx, w-border-6, h-titleH-6, 9, '#ffd166');
-      shots.forEach((sc,i)=>{ const y = border + i*(frameH+gap); ctx.drawImage(sc, border, y, frameW, frameH); });
+      shots.forEach((sc,i)=>{ const y = border + i*(frameH+gap); drawCover(ctx, sc, border, y, frameW, frameH); });
       ctx.fillStyle = '#2b6b93'; ctx.font = '900 22px Fraunces, serif'; ctx.textAlign='center';
       ctx.fillText('Zenith Wave', w/2, h-24);
 
@@ -2118,7 +2118,7 @@ window.ZWAudio = (function(){
         const y = border + i*(frameH+gap);
         ctx.strokeStyle='rgba(255,255,255,.5)'; ctx.lineWidth=2;
         ctx.strokeRect(border-2,y-2,frameW+4,frameH+4);
-        ctx.drawImage(sc, border, y, frameW, frameH);
+        drawCover(ctx, sc, border, y, frameW, frameH);
       });
       ctx.fillStyle = '#eaf3ff'; ctx.font = '600 20px Fraunces, serif'; ctx.textAlign='center';
       ctx.fillText('Zenith Wave', w/2, h-24);
@@ -2131,7 +2131,7 @@ window.ZWAudio = (function(){
       star(ctx, w-border-10, border+8, 11, '#fff');
       star(ctx, border+10, h-titleH-8, 10, '#fff');
       heart(ctx, w-border-14, h-titleH-14, 11, '#fff');
-      shots.forEach((sc,i)=>{ const y = border + i*(frameH+gap); ctx.drawImage(sc, border, y, frameW, frameH); });
+      shots.forEach((sc,i)=>{ const y = border + i*(frameH+gap); drawCover(ctx, sc, border, y, frameW, frameH); });
       ctx.fillStyle = '#ffe9ec'; ctx.font = '600 20px Fraunces, serif'; ctx.textAlign='center';
       ctx.fillText('Zenith Wave', w/2, h-24);
 
@@ -2148,7 +2148,7 @@ window.ZWAudio = (function(){
       star(ctx, w-border-8, border+10, 10, '#c8323f');
       star(ctx, border+8, h-titleH-6, 9, '#c8323f');
       heart(ctx, w-border-10, h-titleH-14, 10, '#c8323f');
-      shots.forEach((sc,i)=>{ const y = border + i*(frameH+gap); ctx.drawImage(sc, border, y, frameW, frameH); });
+      shots.forEach((sc,i)=>{ const y = border + i*(frameH+gap); drawCover(ctx, sc, border, y, frameW, frameH); });
       ctx.fillStyle = '#7a1f26'; ctx.font = '900 20px Fraunces, serif'; ctx.textAlign='center';
       ctx.fillText('Zenith Wave', w/2, h-24);
 
@@ -2164,7 +2164,7 @@ window.ZWAudio = (function(){
         const y = border + i*(frameH+gap);
         ctx.strokeStyle = '#fff'; ctx.lineWidth = 3;
         ctx.strokeRect(border, y, frameW, frameH);
-        ctx.drawImage(sc, border, y, frameW, frameH);
+        drawCover(ctx, sc, border, y, frameW, frameH);
       });
       ctx.fillStyle = '#fff'; ctx.font = '700 20px Fraunces, serif'; ctx.textAlign='center';
       ctx.fillText('Zenith Wave', w/2, h-24);
@@ -2179,7 +2179,7 @@ window.ZWAudio = (function(){
         // screen bezel
         ctx.fillStyle = '#111';
         roundRect(ctx, border-10, y-10, frameW+20, frameH+20, 10); ctx.fill();
-        ctx.drawImage(sc, border, y, frameW, frameH);
+        drawCover(ctx, sc, border, y, frameW, frameH);
         // small UI chrome: rec dot + corner brackets
         ctx.fillStyle = '#ff5c5c';
         ctx.beginPath(); ctx.arc(border+16, y+16, 5, 0, Math.PI*2); ctx.fill();
@@ -2201,7 +2201,7 @@ window.ZWAudio = (function(){
       shots.forEach((sc,i)=>{
         const y = border + i*(frameH+gap);
         roundRect(ctx, border, y, frameW, frameH, 14); ctx.save(); ctx.clip();
-        ctx.drawImage(sc, border, y, frameW, frameH);
+        drawCover(ctx, sc, border, y, frameW, frameH);
         ctx.restore();
         // now-playing bar
         const barY = y+frameH-34, barH=30;
@@ -2232,7 +2232,7 @@ window.ZWAudio = (function(){
       star(ctx, w-border-8, border+10, 11, '#1c2b4a');
       star(ctx, border+8, h-titleH-8, 10, '#1c2b4a');
       star(ctx, w-border-10, h-titleH-10, 10, '#f4c430');
-      shots.forEach((sc,i)=>{ const y = border + i*(frameH+gap); ctx.drawImage(sc, border, y, frameW, frameH); });
+      shots.forEach((sc,i)=>{ const y = border + i*(frameH+gap); drawCover(ctx, sc, border, y, frameW, frameH); });
       ctx.fillStyle = '#1c2b4a'; ctx.font = '900 20px Fraunces, serif'; ctx.textAlign='center';
       ctx.fillText('Zenith Wave', w/2, h-24);
 
@@ -2254,7 +2254,7 @@ window.ZWAudio = (function(){
         const y = border + i*(frameH+gap);
         ctx.strokeStyle = '#000'; ctx.lineWidth = 5;
         ctx.strokeRect(border, y, frameW, frameH);
-        ctx.drawImage(sc, border, y, frameW, frameH);
+        drawCover(ctx, sc, border, y, frameW, frameH);
       });
       // comic burst accent, top-right corner
       burst(ctx, w-border-18, border+14, 26, '#f4c430');
@@ -2373,6 +2373,21 @@ window.ZWAudio = (function(){
     });
   }
 
+  /* fill a box with an image WITHOUT stretching it (centre-crop to the box shape) */
+  function drawCover(ctx, src, x, y, w, h){
+    const sw = src.width || src.videoWidth, sh = src.height || src.videoHeight; if(!sw || !sh) return;
+    const k = Math.max(w/sw, h/sh), cw = w/k, ch = h/k;
+    ctx.drawImage(src, (sw-cw)/2, (sh-ch)/2, cw, ch, x, y, w, h);
+  }
+  /* crop a captured frame to exactly the shape of the camera box the person sees */
+  function cropToBox(c){
+    const box = document.querySelector('.cam-wrap'); let ar = 3/4;
+    if(box && box.clientWidth > 40 && box.clientHeight > 40) ar = box.clientWidth / box.clientHeight;
+    const cur = c.width / c.height; if(Math.abs(cur-ar) < 0.01) return c;
+    let w = c.width, h = c.height; if(cur > ar) w = Math.round(h*ar); else h = Math.round(w/ar);
+    const o = document.createElement('canvas'); o.width = w; o.height = h;
+    o.getContext('2d').drawImage(c, (c.width-w)/2, (c.height-h)/2, w, h, 0, 0, w, h); return o;
+  }
   function roundRect(ctx,x,y,w,h,r){
     ctx.beginPath();
     ctx.moveTo(x+r,y);
@@ -2791,6 +2806,7 @@ window.ZWAudio = (function(){
     });
     return c;
   };
+  { const _rawSnap = snapFrame; snapFrame = function(){ return cropToBox(_rawSnap()); }; }
 
   buildTray();
 
@@ -3430,7 +3446,7 @@ window.ZWAudio = (function(){
 
 
   /* ================= Update notice ================= */
-  const APP_VERSION = '1.1.0';
+  const APP_VERSION = '1.1.1';
   (function(){
     const bar = zwEl('updBar'), txt = zwEl('updText'), go = zwEl('updGo'), later = zwEl('updLater');
     let pending = null, shown = false;
