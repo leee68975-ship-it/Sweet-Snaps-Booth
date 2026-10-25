@@ -826,6 +826,60 @@
   .pf-pick img{display:block;width:100%;height:70px;object-fit:cover;border-radius:10px;margin-bottom:6px;background:#c9a58d;} .pf-pick button{border:none;background:none;color:#7a1630;font-weight:700;cursor:pointer;font-size:.74rem;text-decoration:underline;}
   .pf-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;} .pf-actions button{border:none;border-radius:999px;padding:.65rem 1.3rem;font-weight:700;cursor:pointer;background:rgba(122,22,48,.15);color:#7a1630;} .pf-actions .save{background:#7a1630;color:#fff;}
   @media (max-width:700px){ .pf-row{grid-template-columns:1fr;} .pf-photo div{min-height:240px;} .pf-links{justify-content:flex-start;} .pf-chip{max-width:70%;} .pf-two{grid-template-columns:1fr;} }
+
+  /* =====================================================================
+     ADMIN DASHBOARD  (only reachable by the admin account)
+     ===================================================================== */
+  .tn-admin{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.28);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none;}
+  .tn-admin svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;} .tn-admin[hidden]{display:none;}
+  body[data-view="admin"]{background:#0c0c0e;color:#f2f2f4;} body[data-view="admin"]::before,body[data-view="admin"]::after{opacity:0;}
+  .ad{--bg:#0c0c0e;--panel:#151518;--panel2:#1b1b1f;--line:rgba(255,255,255,.08);--ink:#f2f2f4;--mut:#8d8f97;--acc:#ff6fae;--good:#3ecf8e;--bad:#ff6b6b;--warn:#f5b84b;
+    display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh;color:var(--ink);font-size:.88rem;}
+  .ad *{box-sizing:border-box;}
+  .ad-side{background:var(--panel);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;}
+  .ad-brand{display:flex;align-items:center;gap:10px;font-weight:700;padding:4px 8px 14px;} .ad-brand i{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,#ff3d9a,#5b7bff);display:block;}
+  .ad-lab{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:10px 10px 4px;}
+  .ad-nav{display:flex;flex-direction:column;gap:4px;} .ad-nav button,.ad-back{display:flex;align-items:center;gap:10px;border:none;background:none;color:#c7c8ce;padding:.6rem .7rem;border-radius:10px;cursor:pointer;font:inherit;text-align:left;}
+  .ad-nav button:hover,.ad-back:hover{background:var(--panel2);color:#fff;} .ad-nav button[aria-current="page"]{background:#26262b;color:#fff;font-weight:600;}
+  .ad-nav svg,.ad-back svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;}
+  .ad-grow{flex:1;} .ad-who{font-size:.72rem;color:var(--mut);padding:8px 10px;overflow-wrap:anywhere;}
+  .ad-main{padding:22px clamp(14px,3vw,34px) 60px;min-width:0;}
+  .ad-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px;} .ad-top h1{font-size:1.35rem;font-weight:600;font-family:inherit;letter-spacing:0;line-height:1.2;}
+  .ad-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .ad select,.ad input[type=search],.ad input[type=text]{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:.5rem .7rem;font:inherit;font-size:.82rem;} .ad select option{background:#1b1b1f;}
+  .ad input::placeholder{color:#6f7179;} .ad select:focus,.ad input:focus,.ad button:focus-visible{outline:2px solid var(--acc);outline-offset:1px;}
+  .ad-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:.5rem .9rem;font:inherit;font-size:.82rem;cursor:pointer;} .ad-btn:hover{background:var(--panel2);}
+  .ad-btn.pri{background:#f2f2f4;color:#0c0c0e;font-weight:700;border-color:transparent;} .ad-btn.pri:hover{background:#fff;} .ad-btn.danger:hover{background:#3a1a1d;border-color:#6b2a30;color:#ffb3b3;}
+  .ad-sec[hidden]{display:none;}
+  .ad-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:12px;}
+  .ad-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 18px;min-width:0;}
+  .ad-card .k{color:var(--mut);font-size:.74rem;margin-bottom:6px;} .ad-card .v{font-size:1.7rem;font-weight:600;letter-spacing:-.02em;} .ad-card .d{font-size:.72rem;margin-top:6px;color:var(--mut);display:flex;gap:6px;align-items:center;}
+  .ad-chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 8px;font-size:.7rem;font-weight:600;} .ad-chip.up{background:rgba(62,207,142,.14);color:var(--good);} .ad-chip.down{background:rgba(255,107,107,.14);color:var(--bad);} .ad-chip.flat{background:rgba(255,255,255,.08);color:var(--mut);}
+  .ad-grid{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:12px;margin-bottom:12px;}
+  .ad-card h3{font-size:.9rem;font-weight:600;margin-bottom:2px;} .ad-card .sub{color:var(--mut);font-size:.74rem;margin-bottom:12px;}
+  .ad-chart{position:relative;} .ad-chart svg{width:100%;height:auto;display:block;overflow:visible;} .ad-chart text{fill:var(--mut);font-size:11px;font-family:inherit;}
+  .ad-tip{position:absolute;pointer-events:none;background:#232328;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:7px 10px;font-size:.74rem;white-space:nowrap;transform:translate(-50%,-115%);opacity:0;transition:opacity .12s;z-index:3;} .ad-tip.on{opacity:1;} .ad-tip b{display:block;font-size:.95rem;}
+  .ad-ring{display:grid;place-items:center;position:relative;margin:4px auto 10px;width:min(210px,100%);} .ad-ring svg{width:100%;height:auto;transform:rotate(-90deg);} .ad-ring .mid{position:absolute;text-align:center;} .ad-ring .mid b{display:block;font-size:1.6rem;} .ad-ring .mid span{font-size:.72rem;color:var(--mut);}
+  .ad-legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font-size:.74rem;color:#c7c8ce;} .ad-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;}
+  .ad-alert{display:flex;align-items:center;gap:12px;background:rgba(245,184,75,.1);border:1px solid rgba(245,184,75,.35);color:#f7d189;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:.82rem;} .ad-alert[hidden]{display:none;} .ad-alert span{flex:1;}
+  .ad-list{display:flex;flex-direction:column;} .ad-row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:.8rem;} .ad-row:first-child{border-top:none;} .ad-row small{color:var(--mut);} .ad-row .l{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ad-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;} .ad-bar .grow{flex:1;min-width:150px;} .ad-bar input[type=search]{width:100%;}
+  .ad-seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;} .ad-seg button{border:none;background:none;color:var(--mut);padding:.35rem .8rem;border-radius:8px;font:inherit;font-size:.78rem;cursor:pointer;} .ad-seg button[aria-pressed="true"]{background:#2a2a30;color:#fff;font-weight:600;}
+  .ad-table{width:100%;border-collapse:collapse;} .ad-table th{text-align:left;color:var(--mut);font-weight:500;font-size:.72rem;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;} .ad-table td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;} .ad-table tr:last-child td{border-bottom:none;}
+  .ad-wrap{overflow-x:auto;} .ad-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;font-size:.84rem;}
+  .ad-pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:600;} .ad-pill:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .ad-pill.unused{color:var(--good);background:rgba(62,207,142,.12);} .ad-pill.used{color:#a9aab2;background:rgba(255,255,255,.07);} .ad-pill.pending{color:var(--warn);background:rgba(245,184,75,.12);}
+  .ad-acts{display:flex;gap:6px;justify-content:flex-end;} .ad-acts .ad-btn{padding:.3rem .6rem;font-size:.74rem;}
+  .ad-pager{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--mut);font-size:.78rem;gap:10px;flex-wrap:wrap;} .ad-pager div{display:flex;gap:6px;}
+  .ad-empty{padding:26px 10px;text-align:center;color:var(--mut);}
+  .ad-gen{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .ad-note{color:var(--mut);font-size:.76rem;margin-top:10px;line-height:1.5;}
+  .ad-toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);background:#2a2a30;border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:.6rem 1.1rem;font-size:.8rem;opacity:0;pointer-events:none;transition:.25s;z-index:200;} .ad-toast.show{opacity:1;transform:translate(-50%,0);}
+  @media (max-width:980px){ .ad-stats{grid-template-columns:repeat(2,minmax(0,1fr));} .ad-grid{grid-template-columns:1fr;} }
+  @media (max-width:760px){
+    .ad{grid-template-columns:1fr;} .ad-side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px;} .ad-brand{padding:4px 8px;} .ad-lab,.ad-who,.ad-grow{display:none;}
+    .ad-nav{flex-direction:row;flex:1;overflow-x:auto;} .ad-nav button{padding:.5rem .7rem;white-space:nowrap;} .ad-back span{display:none;}
+  }
 </style>
 </head>
 <body data-ntheme="aurora">
@@ -837,7 +891,8 @@
     <button type="button" class="tn-tab" role="tab" data-go="music" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg><span>Music</span></button>
     <button type="button" class="tn-tab" role="tab" data-go="collection" aria-selected="false"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg><span>Collection</span><b class="tn-count" id="tnCount" hidden>0</b></button>
     <button type="button" class="tn-tab" role="tab" data-go="notes" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg><span>Notes</span></button>
-    <button type="button" class="tn-me" id="tnMe" aria-label="Your profile"><span id="tnMeImg">Z</span></button>
+    <button type="button" class="tn-admin" id="tnAdmin" aria-label="Admin dashboard" hidden><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></button>
+  <button type="button" class="tn-me" id="tnMe" aria-label="Your profile"><span id="tnMeImg">Z</span></button>
 </nav>
 
 <div id="viewLoading" class="view active">
@@ -915,13 +970,6 @@
       </button>
     </div>
   </section>
-  <div id="adminPanel" class="admin-panel" style="display:none;">
-    <h2>Admin — generate codes</h2>
-    <button type="button" class="primary-btn" id="genCodeBtn">Generate new code</button>
-    <div id="genCodeResult" class="gen-code-result"></div>
-    <div id="codeList" class="code-list"></div>
-  </div>
-
   <p class="account-line">Signed in as <span id="accountEmail"></span> · <button type="button" class="link-btn" id="heroLogoutBtn">Log out</button></p>
 
   <footer>Zenith Wave — riding the crest of innovation</footer>
@@ -1071,6 +1119,59 @@
     <div><label for="pfInPi">Pinterest</label><input type="text" id="pfInPi" placeholder="username or link"></div><div><label for="pfInFb">Facebook</label><input type="text" id="pfInFb" placeholder="name or link"></div></div>
     <div class="pf-actions"><button type="button" id="pfCancel">Cancel</button><button type="submit" class="save">Save</button></div>
   </form>
+</div>
+
+<div id="viewAdmin" class="view">
+  <div class="ad">
+    <aside class="ad-side">
+      <div class="ad-brand"><i></i>Zenith Admin</div>
+      <div class="ad-lab">Platform</div>
+      <nav class="ad-nav" aria-label="Admin sections">
+        <button type="button" data-sec="overview" aria-current="page"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</button>
+        <button type="button" data-sec="codes"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M9 7v10"/></svg>Access codes</button>
+        <button type="button" data-sec="users"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.2-5.5 6.5-5.5s5.9 2 6.5 5.5M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.7c2 .7 3.2 2.5 3.5 5.3"/></svg>Accounts</button>
+      </nav>
+      <div class="ad-grow"></div>
+      <div class="ad-who" id="adWho"></div>
+      <button type="button" class="ad-back" id="adBack"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span>Back to app</span></button>
+    </aside>
+    <main class="ad-main">
+      <div class="ad-top"><h1 id="adTitle">Overview</h1>
+        <div class="ad-tools"><span id="adLoad" style="color:var(--mut)"></span>
+          <select id="adRange" aria-label="Date range"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option></select>
+          <button type="button" class="ad-btn" id="adRefresh">Refresh</button></div></div>
+
+      <section class="ad-sec" data-sec="overview">
+        <div class="ad-alert" id="adAlert" hidden><span id="adAlertText"></span><button type="button" class="ad-btn" id="adAlertGo">Make codes</button></div>
+        <div class="ad-stats" id="adStats"></div>
+        <div class="ad-grid">
+          <div class="ad-card"><h3>Codes redeemed</h3><div class="sub" id="adChartTotal"></div>
+            <div class="ad-chart" id="adChart"><svg id="adChartSvg" viewBox="0 0 720 230" role="img" aria-label="Codes redeemed per day"></svg><div class="ad-tip" id="adTip"></div></div></div>
+          <div class="ad-card"><h3>Code usage</h3><div class="sub">All codes ever created</div>
+            <div class="ad-ring"><svg id="adRingSvg" viewBox="0 0 140 140" aria-hidden="true"></svg><div class="mid"><b id="adRingBig">—</b><span>redeemed</span></div></div>
+            <div class="ad-legend"><span><i style="background:#ff6fae"></i>Redeemed</span><span><i style="background:#3ecf8e"></i>Unused</span></div></div>
+        </div>
+        <div class="ad-card"><h3>Recent redemptions</h3><div class="sub">Who joined most recently</div><div class="ad-list" id="adRecent"></div></div>
+      </section>
+
+      <section class="ad-sec" data-sec="codes" hidden>
+        <div class="ad-card" style="margin-bottom:12px"><h3>Create codes</h3><div class="sub">Give each code a label (for example who it is for) so it is easy to find later.</div>
+          <div class="ad-gen"><input type="text" id="adGenLabel" placeholder="Label (optional)" maxlength="40" aria-label="Label"><select id="adGenN" aria-label="How many"><option value="1">1 code</option><option value="5">5 codes</option><option value="10">10 codes</option><option value="25">25 codes</option></select><button type="button" class="ad-btn pri" id="adGenBtn">Generate</button></div></div>
+        <div class="ad-card">
+          <div class="ad-bar"><div class="ad-seg" id="adFilter" role="group" aria-label="Filter"><button type="button" data-f="all" id="adFiltAll" aria-pressed="true">All</button><button type="button" data-f="unused" id="adFiltUn" aria-pressed="false">Unused</button><button type="button" data-f="used" id="adFiltUs" aria-pressed="false">Redeemed</button></div>
+            <div class="grow"><input type="search" id="adSearch" placeholder="Search code, label or email" aria-label="Search codes"></div><button type="button" class="ad-btn" id="adExport">Export CSV</button></div>
+          <div class="ad-wrap"><table class="ad-table"><thead><tr><th>Code</th><th>Status</th><th>Label</th><th>Created</th><th>Redeemed by</th><th></th></tr></thead><tbody id="adCodeBody"></tbody></table></div>
+          <div class="ad-empty" id="adCodeEmpty" hidden></div>
+          <div class="ad-pager"><span id="adPageInfo"></span><div><button type="button" class="ad-btn" id="adPrev">Previous</button><button type="button" class="ad-btn" id="adNext">Next</button></div></div></div>
+      </section>
+
+      <section class="ad-sec" data-sec="users" hidden>
+        <div class="ad-card"><h3>Accounts</h3><div class="sub">People who signed up. “Waiting for a code” means they have not redeemed one yet.</div>
+          <div class="ad-wrap"><table class="ad-table"><thead><tr><th>Email</th><th>Status</th><th>Code used</th></tr></thead><tbody id="adUserBody"></tbody></table></div><div class="ad-empty" id="adUserEmpty" hidden></div></div>
+      </section>
+    </main>
+  </div>
+  <div class="ad-toast" id="adToast" role="status" aria-live="polite"></div>
 </div>
 
 <div id="viewCamera" class="view">
@@ -1489,9 +1590,10 @@ window.ZWAudio = (function(){
     loading: document.getElementById('viewLoading'),
     auth: document.getElementById('viewAuth'),
     redeem: document.getElementById('viewRedeem'),
-    hero: document.getElementById('viewHero'), music: document.getElementById('viewMusic'), collection: document.getElementById('viewCollection'), notes: document.getElementById('viewNotes'), profile: document.getElementById('viewProfile'), camera: document.getElementById('viewCamera'), result: document.getElementById('viewResult')
+    hero: document.getElementById('viewHero'), music: document.getElementById('viewMusic'), collection: document.getElementById('viewCollection'), notes: document.getElementById('viewNotes'), profile: document.getElementById('viewProfile'), admin: document.getElementById('viewAdmin'), camera: document.getElementById('viewCamera'), result: document.getElementById('viewResult')
   };
   function showView(name){
+    if(name==='admin' && !(window.zwIsAdmin && window.zwIsAdmin())) name = 'hero';  // admin-only screen
     Object.values(views).forEach(v=>v.classList.remove('active'));
     views[name].classList.add('active');
     document.body.dataset.view = name;
@@ -1531,11 +1633,11 @@ window.ZWAudio = (function(){
     let currentUid = null;
 
     auth.onAuthStateChanged(async (user)=>{
-      if(!user){ currentUid = null; window.__zwUid = null; showView('auth'); return; }
+      if(!user){ currentUid = null; window.__zwUid = null; if(window.zwSetAdmin) window.zwSetAdmin(false); showView('auth'); return; }
       currentUid = user.uid; window.__zwUid = user.uid; if(window.zwLoadUserTracks) window.zwLoadUserTracks();
       document.getElementById('accountEmail').textContent = user.email;
-      document.getElementById('adminPanel').style.display = (user.email === ADMIN_EMAIL) ? 'block' : 'none';
-      if(user.email === ADMIN_EMAIL){ showView('hero'); loadRecentCodes(); return; }
+      if(window.zwSetAdmin) window.zwSetAdmin(user.email === ADMIN_EMAIL);
+      if(user.email === ADMIN_EMAIL){ showView('hero'); return; }
       try{
         const userRef = db.collection('users').doc(user.uid);
         const snap = await userRef.get();
@@ -1613,37 +1715,6 @@ window.ZWAudio = (function(){
 
     document.getElementById('redeemLogoutBtn').addEventListener('click', ()=> auth.signOut());
     document.getElementById('heroLogoutBtn').addEventListener('click', ()=> auth.signOut());
-
-    // Admin: generate + list codes
-    function randomCode(){
-      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-      let s = '';
-      for(let i=0;i<8;i++) s += chars[Math.floor(Math.random()*chars.length)];
-      return s;
-    }
-    document.getElementById('genCodeBtn').addEventListener('click', async ()=>{
-      const code = randomCode();
-      try{
-        await db.collection('codes').doc(code).set({ status:'unused', createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-        document.getElementById('genCodeResult').textContent = code;
-        loadRecentCodes();
-      }catch(e){
-        document.getElementById('genCodeResult').textContent = 'Could not generate code.';
-      }
-    });
-    async function loadRecentCodes(){
-      const listEl = document.getElementById('codeList');
-      try{
-        const q = await db.collection('codes').orderBy('createdAt','desc').limit(10).get();
-        listEl.innerHTML = '';
-        q.forEach(doc=>{
-          const d = doc.data();
-          const row = document.createElement('div');
-          row.innerHTML = '<span>'+doc.id+'</span><span>'+(d.status==='used'?'Used':'Unused')+'</span>';
-          listEl.appendChild(row);
-        });
-      }catch(e){}
-    }
   }
 
   let stream = null;
@@ -2878,6 +2949,7 @@ window.ZWAudio = (function(){
     if(name==='music') zwRenderMusic();
     if(name==='collection') zwRenderCollection();
     if(name==='profile' && window.zwRenderProfile) window.zwRenderProfile();
+    if(name==='admin' && window.zwAdminOpen) window.zwAdminOpen();
     if(name==='notes' && window.zwRenderNotes) window.zwRenderNotes();
     if(name==='hero') zwRefreshCount();
   };
@@ -3446,7 +3518,7 @@ window.ZWAudio = (function(){
 
 
   /* ================= Update notice ================= */
-  const APP_VERSION = '1.1.1';
+  const APP_VERSION = '1.2.0';
   (function(){
     const bar = zwEl('updBar'), txt = zwEl('updText'), go = zwEl('updGo'), later = zwEl('updLater');
     let pending = null, shown = false;
@@ -3474,6 +3546,169 @@ window.ZWAudio = (function(){
     later.addEventListener('click', ()=>{ try{ sessionStorage.setItem('zw_dismiss', bar.dataset.key||''); }catch(e){} bar.classList.remove('show'); shown=false; pending=null; });
     setTimeout(check, 3000); setInterval(check, 5*60*1000);
     document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') check(); });
+  })();
+
+
+  /* =====================================================================
+     ADMIN DASHBOARD MODULE
+     Sections:  1) helpers  2) data loading  3) Overview  4) Codes  5) Users
+     Only the admin account can open it (checked here AND must be enforced by Firestore rules).
+     ===================================================================== */
+  (function(){
+    const $ = (id)=>document.getElementById(id);
+    const DAY = 86400000;
+    const A = { codes:[], users:new Map(), usersOk:true, range:30, filter:'all', q:'', page:0, ucount:0, sec:'overview', loaded:false };
+
+    /* ---------- 1) helpers ---------- */
+    function isAdmin(){ return !!(auth && auth.currentUser && auth.currentUser.email === ADMIN_EMAIL); }
+    function h(tag, props, kids){
+      const e = document.createElement(tag);
+      Object.keys(props||{}).forEach(k=>{ if(k==='class') e.className = props[k]; else if(k==='text') e.textContent = props[k]; else if(k.slice(0,2)==='on') e.addEventListener(k.slice(2), props[k]); else e.setAttribute(k, props[k]); });
+      (kids||[]).forEach(c=> e.appendChild(typeof c==='string' ? document.createTextNode(c) : c));
+      return e;
+    }
+    function toDate(t){ if(!t) return null; if(t.toDate) return t.toDate(); if(t instanceof Date) return t; const d=new Date(t); return isNaN(d)?null:d; }
+    function dayKey(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+    function fmtDate(d){ return d ? d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}) : '—'; }
+    function fmtShort(d){ return d.toLocaleDateString(undefined,{month:'short',day:'numeric'}); }
+    function pct(a,b){ return b ? Math.round(a/b*100) : 0; }
+    let toastT = null;
+    function toast(msg){ const t=$('adToast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2200); }
+    function copy(text){ try{ navigator.clipboard.writeText(text).then(()=>toast('Copied '+text),()=>toast('Copy failed')); }catch(e){ toast('Copy failed'); } }
+    function randomCode(){ const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s=''; const r=new Uint32Array(8); (window.crypto||{getRandomValues:a=>a.forEach((_,i)=>a[i]=Math.random()*4e9)}).getRandomValues(r); for(let i=0;i<8;i++) s+=chars[r[i]%chars.length]; return s; }
+
+    /* ---------- 2) data loading ---------- */
+    async function load(){
+      if(!isAdmin() || !db) return;
+      $('adLoad').textContent = 'Loading…';
+      try{
+        const snap = await db.collection('codes').orderBy('createdAt','desc').limit(1000).get();
+        A.codes = []; snap.forEach(d=>{ const x=d.data()||{}; A.codes.push({ id:d.id, status:x.status==='used'?'used':'unused', label:x.label||'', created:toDate(x.createdAt), claimedBy:x.claimedBy||'', claimed:toDate(x.claimedAt) }); });
+      }catch(e){ A.codes=[]; toast('Could not read codes — check your Firestore rules'); }
+      try{
+        const us = await db.collection('users').get(); A.users = new Map(); A.usersOk = true;
+        us.forEach(d=>{ const x=d.data()||{}; A.users.set(d.id,{ id:d.id, email:x.email||'(no email)', redeemed:!!x.codeRedeemed, code:x.code||'' }); });
+      }catch(e){ A.usersOk = false; A.users = new Map(); }
+      A.loaded = true; $('adLoad').textContent = ''; renderAll();
+    }
+    function emailOf(uid){ const u=A.users.get(uid); return u ? u.email : (uid ? uid.slice(0,8)+'…' : '—'); }
+
+    /* ---------- 3) Overview ---------- */
+    function inRange(d, from, to){ return d && d>=from && d<to; }
+    function renderOverview(){
+      const now = new Date(); const end = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1); const R = A.range;
+      const from = new Date(end.getTime()-R*DAY), prevFrom = new Date(from.getTime()-R*DAY);
+      const total = A.codes.length, used = A.codes.filter(c=>c.status==='used').length, unused = total-used;
+      const redNow = A.codes.filter(c=>inRange(c.claimed,from,end)).length, redPrev = A.codes.filter(c=>inRange(c.claimed,prevFrom,from)).length;
+      const pending = [...A.users.values()].filter(u=>!u.redeemed && u.email!==ADMIN_EMAIL).length;
+      $('adAlert').hidden = unused >= 5; if(unused<5) $('adAlertText').textContent = unused===0 ? 'You have no unused codes left. New sign-ups can’t get in.' : 'Only '+unused+' unused code'+(unused===1?'':'s')+' left.';
+      const delta = (a,b)=>{ if(!b && !a) return ['flat','– 0%']; if(!b) return ['up','▲ new']; const p=Math.round((a-b)/b*100); return [p>0?'up':p<0?'down':'flat', (p>0?'▲ ':p<0?'▼ ':'– ')+Math.abs(p)+'%']; };
+      const dl = delta(redNow, redPrev);
+      const stats = [
+        ['Total codes', total, null],
+        ['Unused', unused, null],
+        ['Redeemed · last '+R+' days', redNow, dl],
+        [A.usersOk ? 'Waiting for a code' : 'Redemption rate', A.usersOk ? pending : pct(used,total)+'%', null]
+      ];
+      const box = $('adStats'); box.innerHTML='';
+      stats.forEach(s=>{ const d = h('div',{class:'d'}); if(s[2]){ d.appendChild(h('span',{class:'ad-chip '+s[2][0], text:s[2][1]})); d.appendChild(h('span',{text:'vs previous '+R+' days'})); } else d.textContent = ' ';
+        box.appendChild(h('div',{class:'ad-card'},[h('div',{class:'k',text:s[0]}),h('div',{class:'v',text:String(s[1])}),d])); });
+      drawChart(from, R); drawRing(used, unused);
+      const rec = A.codes.filter(c=>c.claimed).sort((a,b)=>b.claimed-a.claimed).slice(0,6); const list=$('adRecent'); list.innerHTML='';
+      if(!rec.length) list.appendChild(h('div',{class:'ad-empty',text:'No codes redeemed yet.'}));
+      rec.forEach(c=> list.appendChild(h('div',{class:'ad-row'},[h('div',{class:'l'},[h('div',{text:emailOf(c.claimedBy)}),h('small',{text:c.id+(c.label?' · '+c.label:'')})]),h('small',{text:fmtShort(c.claimed)})])));
+    }
+    function drawRing(used, unused){
+      const total = used+unused, C = 2*Math.PI*52, ud = total ? used/total*C : 0;
+      const svg = $('adRingSvg'); svg.innerHTML = '';
+      const mk=(col,dash,off)=>{ const c=document.createElementNS('http://www.w3.org/2000/svg','circle'); c.setAttribute('cx',70); c.setAttribute('cy',70); c.setAttribute('r',52); c.setAttribute('fill','none'); c.setAttribute('stroke',col); c.setAttribute('stroke-width',14); c.setAttribute('stroke-dasharray',dash+' '+(C-dash)); c.setAttribute('stroke-dashoffset',-off); return c; };
+      svg.appendChild(mk('#2a2a30',C,0)); if(total){ if(unused) svg.appendChild(mk('#3ecf8e',Math.max(0,C-ud-3),ud+3)); if(used) svg.appendChild(mk('#ff6fae',Math.max(0,ud-3),0)); }
+      $('adRingBig').textContent = total ? pct(used,total)+'%' : '—';
+    }
+    function drawChart(from, R){
+      const counts = new Array(R).fill(0);
+      A.codes.forEach(c=>{ if(c.claimed){ const i = Math.floor((c.claimed-from)/DAY); if(i>=0 && i<R) counts[i]++; } });
+      const W=720,H=230,L=34,T=10,B=26,pw=W-L-8,ph=H-T-B; const max = Math.max(3, Math.ceil(Math.max.apply(null,counts)/3)*3);
+      const x=i=> L + (R<=1?0:i/(R-1))*pw, y=v=> T + ph - v/max*ph;
+      let g=''; for(let k=0;k<=3;k++){ const v=Math.round(max/3*k), yy=y(v); g += '<line x1="'+L+'" x2="'+(W-8)+'" y1="'+yy+'" y2="'+yy+'" stroke="rgba(255,255,255,.07)"/><text x="'+(L-8)+'" y="'+(yy+4)+'" text-anchor="end">'+v+'</text>'; }
+      const ticks = 5; for(let k=0;k<ticks;k++){ const i=Math.round(k*(R-1)/(ticks-1)); const d=new Date(from.getTime()+i*DAY); g += '<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="'+(k===0?'start':k===ticks-1?'end':'middle')+'">'+fmtShort(d)+'</text>'; }
+      const pts = counts.map((v,i)=>[x(i),y(v)]); const line = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+      const area = line+' L'+x(R-1).toFixed(1)+' '+(T+ph)+' L'+x(0).toFixed(1)+' '+(T+ph)+' Z';
+      const svg = $('adChartSvg'); svg.setAttribute('viewBox','0 0 '+W+' '+H);
+      svg.innerHTML = '<defs><linearGradient id="adArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ff6fae" stop-opacity=".28"/><stop offset="1" stop-color="#ff6fae" stop-opacity="0"/></linearGradient></defs>'+g+
+        '<path d="'+area+'" fill="url(#adArea)"/><path d="'+line+'" fill="none" stroke="#ff6fae" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'+
+        '<line id="adCross" y1="'+T+'" y2="'+(T+ph)+'" stroke="rgba(255,255,255,.35)" stroke-dasharray="3 3" visibility="hidden"/><circle id="adDot" r="5" fill="#ff6fae" stroke="#151518" stroke-width="2" visibility="hidden"/>';
+      $('adChartTotal').textContent = counts.reduce((a,b)=>a+b,0) + ' redeemed in the last '+R+' days';
+      const tip=$('adTip'), wrap=$('adChart'), cross=svg.querySelector('#adCross'), dot=svg.querySelector('#adDot');
+      function hover(ev){
+        const r=svg.getBoundingClientRect(); const px=(ev.clientX-r.left)/r.width*W; let i=Math.round((px-L)/pw*(R-1)); i=Math.max(0,Math.min(R-1,i));
+        cross.setAttribute('x1',x(i)); cross.setAttribute('x2',x(i)); cross.setAttribute('visibility','visible'); dot.setAttribute('cx',x(i)); dot.setAttribute('cy',y(counts[i])); dot.setAttribute('visibility','visible');
+        const d=new Date(from.getTime()+i*DAY); tip.innerHTML=''; tip.appendChild(h('span',{text:fmtDate(d)})); tip.appendChild(h('b',{text:counts[i]+(counts[i]===1?' code redeemed':' codes redeemed')}));
+        const wr=wrap.getBoundingClientRect(); tip.style.left=(r.left-wr.left + x(i)/W*r.width)+'px'; tip.style.top=(r.top-wr.top + y(counts[i])/H*r.height)+'px'; tip.classList.add('on');
+      }
+      svg.onpointermove=hover; svg.onpointerdown=hover; svg.onpointerleave=()=>{ cross.setAttribute('visibility','hidden'); dot.setAttribute('visibility','hidden'); tip.classList.remove('on'); };
+    }
+
+    /* ---------- 4) Codes ---------- */
+    const PAGE = 10;
+    function filtered(){
+      const q = A.q.trim().toLowerCase();
+      return A.codes.filter(c=> (A.filter==='all' || (A.filter==='unused'?c.status==='unused':c.status==='used')) && (!q || c.id.toLowerCase().includes(q) || c.label.toLowerCase().includes(q) || emailOf(c.claimedBy).toLowerCase().includes(q)));
+    }
+    function renderCodes(){
+      const rows = filtered(), pages = Math.max(1, Math.ceil(rows.length/PAGE)); A.page = Math.min(A.page, pages-1);
+      const body = $('adCodeBody'); body.innerHTML='';
+      rows.slice(A.page*PAGE, A.page*PAGE+PAGE).forEach(c=>{
+        const acts = h('div',{class:'ad-acts'},[h('button',{class:'ad-btn',type:'button',text:'Copy',onclick:()=>copy(c.id)})]);
+        if(c.status==='unused'){ const del=h('button',{class:'ad-btn danger',type:'button',text:'Delete'}); let armed=false; del.addEventListener('click',async()=>{ if(!armed){ armed=true; del.textContent='Sure?'; setTimeout(()=>{armed=false; del.textContent='Delete';},2200); return; } try{ await db.collection('codes').doc(c.id).delete(); A.codes=A.codes.filter(x=>x.id!==c.id); toast('Deleted '+c.id); renderAll(); }catch(e){ toast('Could not delete — check your Firestore rules'); } }); acts.appendChild(del); }
+        body.appendChild(h('tr',{},[ h('td',{class:'ad-mono',text:c.id}), h('td',{},[h('span',{class:'ad-pill '+c.status,text:c.status==='used'?'Redeemed':'Unused'})]), h('td',{text:c.label||'—'}), h('td',{text:fmtDate(c.created)}), h('td',{text:c.status==='used'?emailOf(c.claimedBy):'—'}), h('td',{},[acts]) ]));
+      });
+      $('adCodeEmpty').hidden = rows.length>0; $('adCodeEmpty').textContent = A.codes.length ? 'No codes match your search.' : 'No codes yet. Generate some above.';
+      $('adPageInfo').textContent = rows.length ? 'Showing '+(A.page*PAGE+1)+'–'+Math.min(rows.length,(A.page+1)*PAGE)+' of '+rows.length : '0 codes';
+      $('adPrev').disabled = A.page<=0; $('adNext').disabled = A.page>=pages-1;
+      document.querySelectorAll('#adFilter button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.f===A.filter)));
+      const nU=A.codes.filter(c=>c.status==='unused').length; $('adFiltAll').textContent='All ('+A.codes.length+')'; $('adFiltUn').textContent='Unused ('+nU+')'; $('adFiltUs').textContent='Redeemed ('+(A.codes.length-nU)+')';
+    }
+    $('adGenBtn').addEventListener('click', async ()=>{
+      if(!isAdmin()) return; const n = parseInt($('adGenN').value,10)||1, label = $('adGenLabel').value.trim().slice(0,40); const btn=$('adGenBtn'); btn.disabled=true;
+      try{
+        const batch = db.batch(), made=[];
+        for(let i=0;i<n;i++){ const code=randomCode(); made.push(code); batch.set(db.collection('codes').doc(code), { status:'unused', label, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); }
+        await batch.commit(); $('adGenLabel').value=''; toast('Created '+n+' code'+(n===1?'':'s')+(n===1?': '+made[0]:'')); if(n===1) copy(made[0]); A.filter='all'; A.page=0; await load();
+      }catch(e){ toast('Could not create codes — check your Firestore rules'); }
+      btn.disabled=false;
+    });
+    document.querySelectorAll('#adFilter button').forEach(b=> b.addEventListener('click',()=>{ A.filter=b.dataset.f; A.page=0; renderCodes(); }));
+    $('adSearch').addEventListener('input',e=>{ A.q=e.target.value; A.page=0; renderCodes(); });
+    $('adPrev').addEventListener('click',()=>{ A.page--; renderCodes(); }); $('adNext').addEventListener('click',()=>{ A.page++; renderCodes(); });
+    $('adExport').addEventListener('click',()=>{
+      const rows=[['code','status','label','created','redeemed_by','redeemed_at']].concat(filtered().map(c=>[c.id,c.status,c.label,c.created?c.created.toISOString():'',c.status==='used'?emailOf(c.claimedBy):'',c.claimed?c.claimed.toISOString():'']));
+      const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n'); const u=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); const a=document.createElement('a'); a.href=u; a.download='zenith-wave-codes.csv'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),1500);
+    });
+
+    /* ---------- 5) Users ---------- */
+    function renderUsers(){
+      const body=$('adUserBody'); body.innerHTML=''; const list=[...A.users.values()].sort((a,b)=>Number(a.redeemed)-Number(b.redeemed)||a.email.localeCompare(b.email));
+      list.forEach(u=> body.appendChild(h('tr',{},[h('td',{text:u.email}),h('td',{},[h('span',{class:'ad-pill '+(u.redeemed?'used':'pending'),text:u.redeemed?'Redeemed':'Waiting for a code'})]),h('td',{class:'ad-mono',text:u.code||'—'})])));
+      $('adUserEmpty').hidden = list.length>0; $('adUserEmpty').textContent = A.usersOk ? 'No accounts yet.' : 'Could not read accounts. Allow the admin to read the "users" collection in your Firestore rules.';
+    }
+
+    /* ---------- navigation + boot ---------- */
+    function renderAll(){ renderOverview(); renderCodes(); renderUsers(); }
+    function section(name){
+      A.sec = name; document.querySelectorAll('.ad-sec').forEach(s=> s.hidden = s.dataset.sec!==name);
+      document.querySelectorAll('.ad-nav button').forEach(b=>{ if(b.dataset.sec===name) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
+      $('adTitle').textContent = {overview:'Overview', codes:'Access codes', users:'Accounts'}[name]; $('adRange').hidden = name!=='overview';
+      if(name==='overview') renderOverview();
+    }
+    document.querySelectorAll('.ad-nav button').forEach(b=> b.addEventListener('click',()=> section(b.dataset.sec)));
+    $('adRange').addEventListener('change',e=>{ A.range=parseInt(e.target.value,10); renderOverview(); });
+    $('adRefresh').addEventListener('click', load); $('adAlertGo').addEventListener('click',()=>section('codes'));
+    $('adBack').addEventListener('click',()=> showView('hero'));
+    $('tnAdmin').addEventListener('click',()=> showView('admin'));
+    window.zwSetAdmin = function(on){ $('tnAdmin').hidden = !on; };
+    window.zwAdminOpen = function(){ $('adWho').textContent = (auth && auth.currentUser && auth.currentUser.email) || ''; section(A.sec); load(); };
+    window.zwIsAdmin = isAdmin;
   })();
 
 })();
