@@ -910,6 +910,95 @@
     .ad{grid-template-columns:1fr;} .ad-side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px;} .ad-brand{padding:4px 8px;} .ad-lab,.ad-who,.ad-grow{display:none;}
     .ad-nav{flex-direction:row;flex:1;overflow-x:auto;} .ad-nav button{padding:.5rem .7rem;white-space:nowrap;} .ad-back span{display:none;}
   }
+
+  /* ===== v1.4: access-code popup, guide, report/chat ===== */
+  @keyframes zwPop{from{opacity:0;transform:translateY(14px) scale(.96);}to{opacity:1;transform:none;}}
+  @keyframes zwFade{from{opacity:0}to{opacity:1}}
+  #viewRedeem.active{display:flex;position:fixed;inset:0;z-index:95;align-items:center;justify-content:center;padding:20px;overflow-y:auto;
+    background:radial-gradient(circle at 20% 15%,rgba(255,61,154,.35),transparent 55%),radial-gradient(circle at 85% 90%,rgba(140,80,255,.35),transparent 55%),rgba(24,8,34,.78);
+    -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);animation:zwFade .3s ease;}
+  .rd-modal{width:min(100%,400px);text-align:center;padding:30px 26px 22px;border-radius:28px;color:#fff;
+    background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.22);box-shadow:0 30px 80px rgba(0,0,0,.45);animation:zwPop .38s cubic-bezier(.2,.9,.3,1.2);}
+  .rd-ic{width:64px;height:64px;margin:0 auto 14px;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#ff3d9a,#8a5cff);box-shadow:0 12px 30px rgba(255,61,154,.45);}
+  .rd-ic svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .rd-modal h1{font-family:'Fraunces',serif;font-weight:900;font-size:1.7rem;line-height:1.1;}
+  .rd-modal p.rd-sub{margin:.6rem auto 1.2rem;color:rgba(255,255,255,.78);font-size:.92rem;max-width:30ch;}
+  .rd-modal #redeemForm input{background:rgba(255,255,255,.95);border:2px solid transparent;text-align:center;font-weight:700;font-size:1.15rem;letter-spacing:.18em;margin-bottom:.4rem;}
+  .rd-modal #redeemForm input:focus{outline:none;border-color:#ff3d9a;}
+  .rd-modal .gate-error{color:#ffb3c6;min-height:1.2rem;}
+  .rd-links{display:flex;gap:6px 14px;justify-content:center;flex-wrap:wrap;margin:.9rem 0 .2rem;}
+  .rd-links button{background:none;border:none;color:#ffd0e4;text-decoration:underline;cursor:pointer;font-size:.82rem;padding:0;}
+  .rd-modal .ghost-btn{margin-top:.6rem;width:100%;color:#fff;border-color:rgba(255,255,255,.3);}
+
+  .tn-help{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.28);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none;font-weight:800;font-size:1.05rem;}
+  .tn-help:hover{border-color:#ff3d9a;}
+  .zw-fab{position:fixed;right:16px;bottom:16px;z-index:66;display:none;align-items:center;gap:8px;padding:11px 16px 11px 13px;border-radius:999px;cursor:pointer;border:1px solid rgba(255,255,255,.28);
+    color:#fff;font-weight:600;font-size:.82rem;background:rgba(28,12,38,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 10px 28px rgba(0,0,0,.35);}
+  .zw-fab svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .zw-fab:hover{border-color:#ff3d9a;}
+  .zw-fab .dot{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:#ff3d5a;color:#fff;font-size:.68rem;display:none;place-items:center;padding:0 4px;}
+  .zw-fab.has .dot{display:grid;}
+  body[data-view="hero"] .zw-fab,body[data-view="music"] .zw-fab,body[data-view="collection"] .zw-fab,body[data-view="notes"] .zw-fab,body[data-view="profile"] .zw-fab,body[data-view="camera"] .zw-fab,body[data-view="result"] .zw-fab{display:inline-flex;}
+  body[data-view="camera"] .zw-fab span,body[data-view="result"] .zw-fab span{display:none;} body[data-view="camera"] .zw-fab,body[data-view="result"] .zw-fab{padding:12px;}
+  body:has(#playerBar:not([hidden])) .zw-fab{bottom:126px;}
+  @media (max-width:640px){ .zw-fab span{display:none;} .zw-fab{padding:12px;} }
+
+  .zw-ovl{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(14,6,22,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:zwFade .2s ease;}
+  .zw-ovl[hidden]{display:none;}
+  .zw-sheet{width:min(100%,480px);max-height:min(88vh,760px);display:flex;flex-direction:column;border-radius:26px;overflow:hidden;color:#fff;
+    background:linear-gradient(170deg,#3a1650,#220d33);border:1px solid rgba(255,255,255,.16);box-shadow:0 30px 80px rgba(0,0,0,.55);animation:zwPop .3s cubic-bezier(.2,.9,.3,1.15);font-size:.92rem;}
+  .zw-sheet header{display:flex;align-items:center;gap:10px;padding:16px 16px 10px 18px;}
+  .zw-sheet header>div{flex:1;min-width:0;} .zw-sheet h2{font-family:'Fraunces',serif;font-size:1.3rem;line-height:1.15;} .zw-sheet header p{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:2px;}
+  .zw-ic{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none;}
+  .zw-ic[hidden]{display:none;} .zw-ic:hover{background:rgba(255,255,255,.18);} .zw-ic svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+  .zw-tabs{display:flex;gap:6px;padding:0 18px 10px;} .zw-tabs[hidden]{display:none;}
+  .zw-tabs button{flex:1;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#e9d8f5;border-radius:999px;padding:.55rem;font-weight:600;font-size:.82rem;cursor:pointer;}
+  .zw-tabs button.on{background:#ff3d9a;border-color:#ff3d9a;color:#fff;} .zw-tabs b{font-weight:700;margin-left:4px;opacity:.9;}
+  .zw-body{padding:4px 18px 18px;overflow-y:auto;display:flex;flex-direction:column;min-height:0;flex:1;}
+  .zw-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .zw-chips button{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:.45rem .9rem;font-size:.8rem;cursor:pointer;}
+  .zw-chips button.on{background:#fff;color:#2a0f3c;font-weight:700;border-color:#fff;}
+  .zw-sheet textarea{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;padding:.8rem .9rem;font:inherit;resize:vertical;min-height:110px;}
+  .zw-sheet textarea::placeholder{color:rgba(255,255,255,.45);} .zw-sheet textarea:focus{outline:2px solid #ff3d9a;outline-offset:1px;}
+  .zw-note{font-size:.74rem;color:rgba(255,255,255,.6);margin:8px 2px 12px;display:flex;gap:8px;align-items:flex-start;line-height:1.35;} .zw-note input{margin-top:2px;accent-color:#ff3d9a;}
+  .zw-send{width:100%;border:none;border-radius:14px;padding:.85rem;font-weight:700;font-size:.95rem;color:#fff;cursor:pointer;background:linear-gradient(135deg,#ff3d9a,#c04bff);box-shadow:0 10px 24px rgba(255,61,154,.4);}
+  .zw-send:disabled{opacity:.55;cursor:default;} .zw-alt[hidden]{display:none;} .zw-alt{width:100%;margin-top:8px;border:1px solid rgba(255,255,255,.25);background:none;color:#fff;border-radius:14px;padding:.7rem;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;display:block;font-size:.88rem;}
+  .zw-err{color:#ffb3c6;font-size:.8rem;min-height:1rem;margin:6px 2px 0;}
+  .zw-list{display:flex;flex-direction:column;gap:8px;} .zw-empty{padding:26px 8px;text-align:center;color:rgba(255,255,255,.6);font-size:.86rem;}
+  .zw-row{display:flex;gap:10px;align-items:center;text-align:left;width:100%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;border-radius:16px;padding:.7rem .85rem;cursor:pointer;}
+  .zw-row:hover{background:rgba(255,255,255,.12);} .zw-row .t{flex:1;min-width:0;} .zw-row .t b{display:block;font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} .zw-row .t small{color:rgba(255,255,255,.6);font-size:.74rem;}
+  .zw-pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;font-size:.7rem;font-weight:700;white-space:nowrap;} .zw-pill:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .zw-pill.open{color:#ffd27a;background:rgba(245,184,75,.16);} .zw-pill.replied{color:#6fe3ae;background:rgba(62,207,142,.16);} .zw-pill.closed{color:#c9c2d4;background:rgba(255,255,255,.1);}
+  .zw-new{width:9px;height:9px;border-radius:50%;background:#ff3d5a;flex:none;}
+  .zw-msgs{display:flex;flex-direction:column;gap:10px;overflow-y:auto;padding:4px 2px 10px;flex:1;min-height:160px;max-height:46vh;}
+  .zw-b{max-width:84%;padding:.6rem .8rem;border-radius:16px;line-height:1.4;font-size:.88rem;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere;}
+  .zw-b small{display:block;font-size:.68rem;opacity:.7;margin-top:4px;white-space:normal;}
+  .zw-b.me{align-self:flex-end;background:linear-gradient(135deg,#ff3d9a,#c04bff);border-bottom-right-radius:5px;}
+  .zw-b.them{align-self:flex-start;background:rgba(255,255,255,.12);border-bottom-left-radius:5px;}
+  .zw-b .who{display:block;font-size:.68rem;font-weight:700;opacity:.8;margin-bottom:2px;}
+  .zw-reply{display:flex;gap:8px;align-items:flex-end;margin-top:6px;} .zw-reply textarea{min-height:44px;height:44px;resize:none;border-radius:22px;padding:.65rem 1rem;}
+  .zw-reply button{border:none;border-radius:50%;width:44px;height:44px;flex:none;background:#ff3d9a;color:#fff;cursor:pointer;display:grid;place-items:center;} .zw-reply button:disabled{opacity:.5;}
+  .zw-reply svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+  .zw-meta{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px;} .zw-meta span{font-size:.7rem;color:rgba(255,255,255,.7);background:rgba(255,255,255,.08);border-radius:8px;padding:3px 8px;}
+  .zw-closedbar{font-size:.78rem;color:rgba(255,255,255,.65);text-align:center;margin:2px 0 8px;}
+  .zw-actions{display:flex;gap:8px;margin-top:8px;} .zw-actions button{flex:1;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:#fff;border-radius:12px;padding:.6rem;font-weight:600;cursor:pointer;font-size:.82rem;}
+
+  /* guide */
+  .zw-guide{width:min(100%,430px);} .gd-stage{margin:0 18px;border-radius:20px;height:190px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(255,61,154,.35),rgba(140,80,255,.35));position:relative;overflow:hidden;}
+  .gd-stage svg{width:92px;height:92px;fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 8px 14px rgba(0,0,0,.3));animation:zwPop .45s cubic-bezier(.2,.9,.3,1.3);}
+  .gd-num{position:absolute;top:12px;left:14px;font-weight:800;font-size:.72rem;letter-spacing:.14em;color:rgba(255,255,255,.85);}
+  .gd-txt{padding:16px 22px 4px;text-align:center;min-height:170px;} .gd-txt h3{font-family:'Fraunces',serif;font-size:1.35rem;} .gd-txt p{margin-top:8px;color:rgba(255,255,255,.82);line-height:1.5;font-size:.9rem;}
+  .gd-txt ul{list-style:none;margin-top:10px;text-align:left;display:inline-block;} .gd-txt li{font-size:.84rem;color:rgba(255,255,255,.85);padding:2px 0;} .gd-txt li:before{content:"•";color:#ff6fae;margin-right:8px;font-weight:900;}
+  .gd-dots{display:flex;gap:6px;justify-content:center;padding:6px 0 12px;} .gd-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .2s;} .gd-dots i.on{width:22px;border-radius:4px;background:#ff3d9a;}
+  .gd-nav{display:flex;gap:8px;padding:0 18px 18px;} .gd-nav button{flex:1;border-radius:14px;padding:.8rem;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:#fff;font-size:.9rem;}
+  .gd-nav button.pri{background:linear-gradient(135deg,#ff3d9a,#c04bff);border-color:transparent;} .gd-nav button[hidden]{display:none;}
+  .gd-skip{background:none;border:none;color:rgba(255,255,255,.6);font-size:.78rem;cursor:pointer;text-decoration:underline;display:block;margin:-6px auto 14px;}
+
+  /* admin reports */
+  .ad-pill.rp-open{color:var(--warn);background:rgba(245,184,75,.12);} .ad-pill.rp-replied{color:var(--good);background:rgba(62,207,142,.12);} .ad-pill.rp-closed{color:#a9aab2;background:rgba(255,255,255,.07);}
+  .ad-badge{margin-left:auto;min-width:20px;height:20px;border-radius:10px;background:#ff3d5a;color:#fff;font-size:.7rem;display:none;place-items:center;padding:0 6px;font-weight:700;} .ad-badge.on{display:grid;}
+  #zwAdBody tr{cursor:pointer;} #zwAdBody tr:hover td{background:rgba(255,255,255,.04);} #zwAdBody td.msg{max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#d7d8de;} #zwAdBody tr.unread td:first-child{box-shadow:inset 3px 0 0 #ff3d5a;}
+  .tn-admin.dot:after{content:"";position:absolute;top:2px;right:2px;width:10px;height:10px;border-radius:50%;background:#ff3d5a;border:2px solid #fff;} .tn-admin{position:relative;}
 </style>
 </head>
 <body data-ntheme="aurora">
@@ -922,6 +1011,7 @@
     <button type="button" class="tn-tab" role="tab" data-go="collection" aria-selected="false"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg><span>Collection</span><b class="tn-count" id="tnCount" hidden>0</b></button>
     <button type="button" class="tn-tab" role="tab" data-go="notes" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg><span>Notes</span></button>
     <button type="button" class="tn-admin" id="tnAdmin" aria-label="Admin dashboard" hidden><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></button>
+  <button type="button" class="tn-help" id="tnHelp" aria-label="How to use the photobooth" title="How to use">?</button>
   <button type="button" class="tn-me" id="tnMe" aria-label="Your profile"><span id="tnMeImg">Z</span></button>
 </nav>
 
@@ -951,17 +1041,17 @@
 </div>
 
 <div id="viewRedeem" class="view">
-  <section class="gate-screen">
-    <h1 class="gate-title">One more step</h1>
-    <p class="gate-sub">Enter the access code you received after purchase.</p>
-    <div class="gate-card">
-      <form id="redeemForm">
-        <input type="text" id="redeemInput" placeholder="Access code" required autocomplete="off" style="text-transform:uppercase;">
-        <p class="gate-error" id="redeemError"></p>
-        <button type="submit" class="primary-btn" id="redeemSubmitBtn">Unlock photo booth</button>
-      </form>
-      <button type="button" class="ghost-btn" id="redeemLogoutBtn">Log out</button>
-    </div>
+  <section class="rd-modal" role="dialog" aria-modal="true" aria-labelledby="rdTitle">
+    <div class="rd-ic"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2 20 3M17 6l3 3M14.5 8.5l2 2"/></svg></div>
+    <h1 id="rdTitle">Enter your access code</h1>
+    <p class="rd-sub">Type the code you received after purchase to unlock the photo booth.</p>
+    <form id="redeemForm">
+      <input type="text" id="redeemInput" placeholder="ACCESS CODE" required autocomplete="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase;">
+      <p class="gate-error" id="redeemError"></p>
+      <button type="submit" class="primary-btn" id="redeemSubmitBtn">Unlock photo booth</button>
+    </form>
+    <div class="rd-links"><button type="button" id="rdHelp">How does it work?</button><button type="button" id="rdChat">No code or it won't work? Message us</button></div>
+    <button type="button" class="ghost-btn" id="redeemLogoutBtn">Log out</button>
   </section>
 </div>
 
@@ -1160,6 +1250,7 @@
         <button type="button" data-sec="overview" aria-current="page"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</button>
         <button type="button" data-sec="codes"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M9 7v10"/></svg>Access codes</button>
         <button type="button" data-sec="users"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.2-5.5 6.5-5.5s5.9 2 6.5 5.5M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.7c2 .7 3.2 2.5 3.5 5.3"/></svg>Accounts</button>
+        <button type="button" data-sec="reports"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/></svg>Reports<i class="ad-badge" id="zwRepBadge"></i></button>
       </nav>
       <div class="ad-grow"></div>
       <div class="ad-who" id="adWho"></div>
@@ -1198,6 +1289,13 @@
       <section class="ad-sec" data-sec="users" hidden>
         <div class="ad-card"><h3>Accounts</h3><div class="sub">People who signed up. “Waiting for a code” means they have not redeemed one yet.</div>
           <div class="ad-wrap"><table class="ad-table"><thead><tr><th>Email</th><th>Status</th><th>Code used</th></tr></thead><tbody id="adUserBody"></tbody></table></div><div class="ad-empty" id="adUserEmpty" hidden></div></div>
+      </section>
+
+      <section class="ad-sec" data-sec="reports" hidden>
+        <div class="ad-card"><h3>Reports &amp; chats</h3><div class="sub">Bug reports and messages from your users. Click a row to read it and reply.</div>
+          <div class="ad-bar"><div class="ad-seg" id="zwAdSeg" role="group" aria-label="Filter"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="open" aria-pressed="false">Open</button><button type="button" data-f="replied" aria-pressed="false">Replied</button><button type="button" data-f="closed" aria-pressed="false">Closed</button></div><div class="grow"><input type="search" id="zwAdQ" placeholder="Search reports…"></div></div>
+          <div class="ad-wrap"><table class="ad-table"><thead><tr><th>#</th><th>Date</th><th>Type</th><th>From</th><th>Message</th><th>Status</th><th></th></tr></thead><tbody id="zwAdBody"></tbody></table></div><div class="ad-empty" id="zwAdEmpty" hidden>No reports yet.</div>
+        </div>
       </section>
     </main>
   </div>
@@ -3640,7 +3738,7 @@ window.ZWAudio = (function(){
 
 
   /* ================= Update notice ================= */
-  const APP_VERSION = '1.3.1';
+  const APP_VERSION = '1.4.0'; window.zwAppVersion = APP_VERSION;
   (function(){
     const bar = zwEl('updBar'), txt = zwEl('updText'), go = zwEl('updGo'), later = zwEl('updLater');
     let pending = null, shown = false;
@@ -3820,7 +3918,7 @@ window.ZWAudio = (function(){
     function section(name){
       A.sec = name; document.querySelectorAll('.ad-sec').forEach(s=> s.hidden = s.dataset.sec!==name);
       document.querySelectorAll('.ad-nav button').forEach(b=>{ if(b.dataset.sec===name) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
-      $('adTitle').textContent = {overview:'Overview', codes:'Access codes', users:'Accounts'}[name]; $('adRange').hidden = name!=='overview';
+      $('adTitle').textContent = {overview:'Overview', codes:'Access codes', users:'Accounts', reports:'Reports'}[name]; $('adRange').hidden = name!=='overview';
       if(name==='overview') renderOverview();
     }
     document.querySelectorAll('.ad-nav button').forEach(b=> b.addEventListener('click',()=> section(b.dataset.sec)));
@@ -3836,5 +3934,304 @@ window.ZWAudio = (function(){
 })();
 </script>
 
+
+<button type="button" class="zw-fab" id="zwFab" aria-label="Report a bug or chat with us"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M12 8v4.5M12 15.8v.1"/></svg><span>Report a bug</span><i class="dot" id="zwFabDot"></i></button>
+
+<div class="zw-ovl" id="zwSup" hidden>
+  <div class="zw-sheet" role="dialog" aria-modal="true" aria-labelledby="zwSupTitle">
+    <header>
+      <button type="button" class="zw-ic" id="zwSupBack" aria-label="Back" hidden><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div><h2 id="zwSupTitle">Chat with us</h2><p id="zwSupSub">Found a bug? Tell us. Our replies show up right here.</p></div>
+      <button type="button" class="zw-ic" id="zwSupX" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </header>
+    <div class="zw-tabs" id="zwTabs"><button type="button" data-t="new" class="on">New report</button><button type="button" data-t="mine">My chats<b id="zwMineN"></b></button></div>
+    <div class="zw-body">
+      <form id="zwNew" autocomplete="off">
+        <div class="zw-chips" id="zwTypes"><button type="button" data-v="bug" class="on">Bug</button><button type="button" data-v="code">Access code</button><button type="button" data-v="idea">Idea</button><button type="button" data-v="other">Other</button></div>
+        <textarea id="zwText" maxlength="1000" placeholder="What happened? Tell us what you pressed and what you expected to see." required></textarea>
+        <label class="zw-note"><input type="checkbox" id="zwMeta" checked><span>Include device info (app version, screen, browser) so we can fix it faster. Your photos are never sent.</span></label>
+        <p class="zw-err" id="zwErr" role="alert"></p>
+        <button type="submit" class="zw-send" id="zwSendBtn">Send to us</button>
+        <a class="zw-alt" id="zwContact" href="#" target="_blank" rel="noopener" hidden>Or message us directly</a>
+      </form>
+      <div id="zwMine" class="zw-list" hidden></div>
+      <div id="zwThread" hidden style="display:none;flex-direction:column;flex:1;min-height:0;">
+        <div class="zw-msgs" id="zwMsgs"></div>
+        <p class="zw-closedbar" id="zwClosedBar" hidden>This chat is closed. Send a message to open it again.</p>
+        <form class="zw-reply" id="zwReply"><textarea id="zwReplyText" maxlength="1000" rows="1" placeholder="Write a message…"></textarea><button type="submit" aria-label="Send" id="zwReplyBtn"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="zw-ovl" id="zwGuide" hidden>
+  <div class="zw-sheet zw-guide" role="dialog" aria-modal="true" aria-label="How to use the photobooth">
+    <header><div><h2>How to use the photobooth</h2><p id="gdStep">Step 1 of 6</p></div><button type="button" class="zw-ic" id="gdX" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <div class="gd-stage"><span class="gd-num" id="gdNum">1</span><div id="gdIcon"></div></div>
+    <div class="gd-txt" id="gdTxt"></div>
+    <div class="gd-dots" id="gdDots"></div>
+    <button type="button" class="gd-skip" id="gdSkip">Skip guide</button>
+    <div class="gd-nav"><button type="button" id="gdBack">Back</button><button type="button" class="pri" id="gdNext">Next</button></div>
+  </div>
+</div>
+
+<div class="zw-ovl" id="zwAdDrawer" hidden>
+  <div class="zw-sheet" role="dialog" aria-modal="true" aria-labelledby="zwAdTitle">
+    <header><div><h2 id="zwAdTitle">Report</h2><p id="zwAdSub"></p></div><button type="button" class="zw-ic" id="zwAdX" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <div class="zw-body">
+      <div class="zw-meta" id="zwAdMeta"></div>
+      <div class="zw-msgs" id="zwAdMsgs"></div>
+      <form class="zw-reply" id="zwAdReply"><textarea id="zwAdText" maxlength="1000" rows="1" placeholder="Reply to the user…"></textarea><button type="submit" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form>
+      <div class="zw-actions"><button type="button" id="zwAdClose">Mark as closed</button><button type="button" id="zwAdCopy">Copy email</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const ADMIN_EMAIL = 'leee68975@gmail.com';
+  const CONTACT_URL = '';   // optional: paste a Messenger / Instagram / Telegram link here to show a "message us directly" button
+  const $ = (id)=>document.getElementById(id);
+  const TYPES = { bug:'Bug', code:'Access code', idea:'Idea', other:'Other' };
+  function h(tag, props, kids){
+    const e=document.createElement(tag);
+    Object.keys(props||{}).forEach(k=>{ if(k==='class') e.className=props[k]; else if(k==='text') e.textContent=props[k]; else if(k.slice(0,2)==='on') e.addEventListener(k.slice(2),props[k]); else e.setAttribute(k,props[k]); });
+    (kids||[]).forEach(c=>e.appendChild(typeof c==='string'?document.createTextNode(c):c)); return e;
+  }
+  function toDate(t){ if(!t) return null; if(t.toDate) return t.toDate(); if(t instanceof Date) return t; const d=new Date(t); return isNaN(d)?null:d; }
+  function ago(d){
+    const s=Math.max(0,(Date.now()-d.getTime())/1000);
+    if(s<60) return 'just now'; if(s<3600) return Math.floor(s/60)+' min ago'; if(s<86400) return Math.floor(s/3600)+' h ago';
+    if(s<604800) return Math.floor(s/86400)+' d ago'; return d.toLocaleDateString(undefined,{month:'short',day:'numeric'});
+  }
+  function clock(ms){ const d=new Date(ms); return d.toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}); }
+  const view = ()=>document.body.dataset.view;
+
+  /* =================== Firebase =================== */
+  let auth=null, db=null, FV=null;
+  try{ if(window.firebase){ auth=firebase.auth(); db=firebase.firestore(); FV=firebase.firestore.FieldValue; } }catch(e){}
+  const S = { user:null, admin:false, mine:[], all:[], err:false, unsub:null, poll:null, tab:'new', type:'bug', openId:null, adOpenId:null, adF:'all', adQ:'', sending:false };
+
+  function norm(d){
+    const x=d.data()||{};
+    return { id:d.id, uid:x.uid, email:x.email||'', type:x.type||'other', status:x.status||'open', messages:Array.isArray(x.messages)?x.messages:[],
+      unreadUser:!!x.unreadUser, unreadAdmin:!!x.unreadAdmin, meta:x.meta||{}, createdAt:toDate(x.createdAt)||new Date(), updatedAt:toDate(x.updatedAt)||new Date() };
+  }
+  function stopListen(){ if(S.unsub){ try{S.unsub();}catch(e){} S.unsub=null; } if(S.poll){ clearInterval(S.poll); S.poll=null; } }
+  function startListen(){
+    stopListen(); S.mine=[]; S.all=[]; if(!db||!S.user) return;
+    const col=db.collection('reports');
+    const q = S.admin ? col.orderBy('updatedAt','desc').limit(300) : col.where('uid','==',S.user.uid);
+    const apply=(snap)=>{ const arr=[]; snap.forEach(d=>arr.push(norm(d))); arr.sort((a,b)=>b.updatedAt-a.updatedAt); if(S.admin) S.all=arr; else S.mine=arr; S.err=false; refresh(); };
+    const fail=()=>{ S.err=true; refresh(); };
+    if(typeof q.onSnapshot==='function') S.unsub=q.onSnapshot(apply,fail);
+    else { const go=()=>q.get().then(apply,fail); go(); S.poll=setInterval(go,5000); }
+  }
+  if(auth) auth.onAuthStateChanged((u)=>{
+    S.user=u||null; S.admin=!!(u&&u.email===ADMIN_EMAIL);
+    if(!u){ closeSup(); closeDrawer(); stopListen(); S.mine=[]; S.all=[]; refresh(); return; }
+    startListen(); refresh();
+  });
+
+  async function createReport(type,text,withMeta){
+    const u=S.user; const meta={};
+    if(withMeta){ meta.version=window.zwAppVersion||''; meta.view=view(); meta.screen=screen.width+'x'+screen.height; meta.ua=(navigator.userAgent||'').slice(0,160); }
+    const ref=await db.collection('reports').add({ uid:u.uid, email:u.email||'', type, status:'open', createdAt:FV.serverTimestamp(), updatedAt:FV.serverTimestamp(),
+      unreadAdmin:true, unreadUser:false, meta, messages:[{from:'user',text,at:Date.now()}] });
+    return ref.id;
+  }
+  async function reply(rep,text,from){
+    const upd={ messages:FV.arrayUnion({from,text,at:Date.now()}), updatedAt:FV.serverTimestamp(), status:from==='admin'?'replied':'open', unreadAdmin:from==='user', unreadUser:from==='admin' };
+    await db.collection('reports').doc(rep.id).update(upd);
+  }
+  async function patch(rep,obj){ try{ await db.collection('reports').doc(rep.id).update(obj); }catch(e){} }
+
+  /* =================== shared thread drawing =================== */
+  function drawMsgs(box, rep, viewer){
+    const nearBottom = box.scrollHeight-box.scrollTop-box.clientHeight < 80, prevN = box.childElementCount;
+    box.innerHTML='';
+    rep.messages.forEach(m=>{
+      const mine = (viewer==='admin') ? m.from==='admin' : m.from==='user';
+      const who = mine ? 'You' : (viewer==='admin' ? (rep.email||'User') : 'Support');
+      box.appendChild(h('div',{class:'zw-b '+(mine?'me':'them')},[ h('span',{class:'who',text:who}), document.createTextNode(m.text||''), h('small',{text:clock(m.at||Date.now())}) ]));
+    });
+    if(nearBottom || prevN===0 || box.childElementCount!==prevN) box.scrollTop=box.scrollHeight;
+  }
+
+  /* =================== user: support modal =================== */
+  const sup=$('zwSup');
+  function openSup(opts){
+    if(!S.user){ return; }
+    opts=opts||{}; if(opts.type){ S.type=opts.type; }
+    sup.hidden=false; document.body.style.overflow='hidden';
+    $('zwContact').hidden=!CONTACT_URL; if(CONTACT_URL) $('zwContact').href=CONTACT_URL;
+    syncTypes(); setTab(opts.tab||(S.mine.length && opts.tab!=='new' && false ? 'mine':'new')); S.openId=null; paintSup();
+    setTimeout(()=>{ const t=$('zwText'); if(t && S.tab==='new') t.focus(); },60);
+  }
+  function closeSup(){ sup.hidden=true; S.openId=null; document.body.style.overflow=''; }
+  function syncTypes(){ document.querySelectorAll('#zwTypes button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.type)); }
+  function setTab(t){ S.tab=t; S.openId=null; paintSup(); }
+  function paintSup(){
+    const inThread = !!S.openId, rep = S.mine.find(r=>r.id===S.openId);
+    if(inThread && !rep){ S.openId=null; }
+    const th = !!S.openId;
+    $('zwTabs').hidden = th; $('zwSupBack').hidden = !th;
+    document.querySelectorAll('#zwTabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===S.tab));
+    $('zwNew').style.display = (!th && S.tab==='new') ? '' : 'none';
+    $('zwMine').hidden = !( !th && S.tab==='mine'); $('zwMine').style.display = $('zwMine').hidden ? 'none':'';
+    const T=$('zwThread'); T.style.display = th ? 'flex':'none';
+    const n=S.mine.length; $('zwMineN').textContent = n? '('+n+')' : '';
+    if(th){
+      const r=S.mine.find(x=>x.id===S.openId);
+      { const f=r.messages[0]?r.messages[0].text:''; $('zwSupTitle').textContent=(TYPES[r.type]||'Report')+(f?' · '+(f.length>26?f.slice(0,26).trim()+'…':f):''); }
+      $('zwSupSub').textContent = r.status==='replied'?'We replied':(r.status==='closed'?'Closed':'Waiting for our reply');
+      drawMsgs($('zwMsgs'),r,'user'); $('zwClosedBar').hidden = r.status!=='closed';
+      if(r.unreadUser) patch(r,{unreadUser:false});
+    }else{
+      $('zwSupTitle').textContent='Chat with us'; $('zwSupSub').textContent='Found a bug? Tell us. Our replies show up right here.';
+      if(S.tab==='mine') drawList();
+    }
+    if(S.err) $('zwErr').textContent='Chat is not available yet. Please try again later.'; 
+  }
+  function drawList(){
+    const box=$('zwMine'); box.innerHTML='';
+    if(!S.mine.length){ box.appendChild(h('div',{class:'zw-empty',text:'No chats yet. Send a report and our replies will show up here.'})); return; }
+    S.mine.forEach(r=>{
+      const first=r.messages[0]?r.messages[0].text:''; const last=r.messages[r.messages.length-1];
+      const row=h('button',{type:'button',class:'zw-row',onclick:()=>{ S.openId=r.id; paintSup(); }},[
+        h('div',{class:'t'},[ h('b',{text:(TYPES[r.type]||'Report')+' · '+first}), h('small',{text:(last&&last.from==='admin'?'Support: ':'You: ')+(last?last.text.slice(0,60):'')+' · '+ago(r.updatedAt)}) ]),
+        r.unreadUser? h('i',{class:'zw-new'}) : document.createTextNode(''),
+        h('span',{class:'zw-pill '+r.status,text:r.status==='replied'?'Replied':(r.status==='closed'?'Closed':'Open')}) ]);
+      box.appendChild(row);
+    });
+  }
+  document.querySelectorAll('#zwTabs button').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.t)));
+  document.querySelectorAll('#zwTypes button').forEach(b=>b.addEventListener('click',()=>{ S.type=b.dataset.v; syncTypes(); }));
+  $('zwSupX').addEventListener('click',closeSup); $('zwSupBack').addEventListener('click',()=>{ S.openId=null; S.tab='mine'; paintSup(); });
+  sup.addEventListener('click',e=>{ if(e.target===sup) closeSup(); });
+  $('zwFab').addEventListener('click',()=>openSup({tab:'new'}));
+  const rc=$('rdChat'); if(rc) rc.addEventListener('click',()=>openSup({tab:'new',type:'code'}));
+  $('zwNew').addEventListener('submit',async(e)=>{
+    e.preventDefault(); if(S.sending||!db||!S.user) return;
+    const text=$('zwText').value.trim(); const err=$('zwErr'); err.textContent='';
+    if(text.length<5){ err.textContent='Please add a few more details.'; return; }
+    let last=0; try{ last=+localStorage.getItem('zwRepLast')||0; }catch(_){}
+    if(Date.now()-last<20000){ err.textContent='Please wait a few seconds before sending another report.'; return; }
+    S.sending=true; $('zwSendBtn').disabled=true; $('zwSendBtn').textContent='Sending…';
+    try{
+      const id=await createReport(S.type,text,$('zwMeta').checked);
+      try{ localStorage.setItem('zwRepLast',String(Date.now())); }catch(_){}
+      $('zwText').value=''; S.openId=id; S.tab='mine';
+      if(!S.mine.find(r=>r.id===id)){ S.mine.unshift({id,uid:S.user.uid,email:S.user.email,type:S.type,status:'open',messages:[{from:'user',text,at:Date.now()}],unreadUser:false,unreadAdmin:true,meta:{},createdAt:new Date(),updatedAt:new Date()}); }
+      paintSup();
+    }catch(ex){ err.textContent='Could not send. Check your internet, or the chat may not be set up yet.'; }
+    S.sending=false; $('zwSendBtn').disabled=false; $('zwSendBtn').textContent='Send to us';
+  });
+  $('zwReply').addEventListener('submit',async(e)=>{
+    e.preventDefault(); const t=$('zwReplyText').value.trim(); const r=S.mine.find(x=>x.id===S.openId); if(!t||!r||S.sending) return;
+    S.sending=true; $('zwReplyBtn').disabled=true;
+    try{ await reply(r,t,'user'); $('zwReplyText').value=''; r.messages=r.messages.concat([{from:'user',text:t,at:Date.now()}]); r.status='open'; paintSup(); }catch(ex){ $('zwSupSub').textContent='Could not send. Try again.'; }
+    S.sending=false; $('zwReplyBtn').disabled=false;
+  });
+  $('zwReplyText').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); $('zwReply').requestSubmit(); } });
+
+  /* =================== admin: reports section =================== */
+  function adFiltered(){
+    const q=S.adQ.trim().toLowerCase();
+    return S.all.filter(r=>(S.adF==='all'||r.status===S.adF) && (!q || (r.email+' '+r.messages.map(m=>m.text).join(' ')+' '+r.type).toLowerCase().includes(q)));
+  }
+  function renderAdmin(){
+    const body=$('zwAdBody'); if(!body) return;
+    const unread=S.all.filter(r=>r.unreadAdmin).length;
+    const bd=$('zwRepBadge'); bd.textContent=unread; bd.classList.toggle('on',unread>0);
+    const tn=$('tnAdmin'); if(tn) tn.classList.toggle('dot',unread>0);
+    body.innerHTML=''; const list=adFiltered();
+    list.forEach(r=>{
+      const first=r.messages[0]?r.messages[0].text:'';
+      body.appendChild(h('tr',{class:r.unreadAdmin?'unread':'',onclick:()=>openDrawer(r.id)},[
+        h('td',{text:r.id.slice(0,6).toUpperCase()}), h('td',{text:r.createdAt.toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}),
+        h('td',{text:TYPES[r.type]||r.type}), h('td',{text:r.email}), h('td',{class:'msg',text:first}),
+        h('td',{},[h('span',{class:'ad-pill rp-'+r.status,text:r.status==='replied'?'Replied':(r.status==='closed'?'Closed':'Open')})]),
+        h('td',{text:'›'}) ]));
+    });
+    const em=$('zwAdEmpty'); em.hidden=list.length>0; em.textContent = S.err ? 'Could not read reports. Add the "reports" rules in Firestore (see the setup note).' : (S.all.length? 'No reports match.' : 'No reports yet.');
+    if(S.adOpenId) paintDrawer();
+  }
+  document.querySelectorAll('#zwAdSeg button').forEach(b=>b.addEventListener('click',()=>{ S.adF=b.dataset.f; document.querySelectorAll('#zwAdSeg button').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); renderAdmin(); }));
+  $('zwAdQ').addEventListener('input',e=>{ S.adQ=e.target.value; renderAdmin(); });
+  const dr=$('zwAdDrawer');
+  function openDrawer(id){ S.adOpenId=id; dr.hidden=false; paintDrawer(); const r=S.all.find(x=>x.id===id); if(r&&r.unreadAdmin) patch(r,{unreadAdmin:false}); setTimeout(()=>$('zwAdText').focus(),60); }
+  function closeDrawer(){ S.adOpenId=null; dr.hidden=true; }
+  function paintDrawer(){
+    const r=S.all.find(x=>x.id===S.adOpenId); if(!r){ closeDrawer(); return; }
+    $('zwAdTitle').textContent=(TYPES[r.type]||'Report')+' from '+(r.email||'user'); $('zwAdSub').textContent='Opened '+ago(r.createdAt)+' · '+(r.status==='closed'?'Closed':(r.status==='replied'?'You replied':'Waiting for you'));
+    const m=$('zwAdMeta'); m.innerHTML=''; const mm=r.meta||{};
+    [['v',mm.version],['screen',mm.screen],['page',mm.view],['browser',mm.ua]].forEach(([k,v])=>{ if(v) m.appendChild(h('span',{text:(k==='browser'?String(v).slice(0,70):k+': '+v)})); });
+    drawMsgs($('zwAdMsgs'),r,'admin'); $('zwAdClose').textContent=r.status==='closed'?'Reopen':'Mark as closed';
+  }
+  $('zwAdX').addEventListener('click',closeDrawer); dr.addEventListener('click',e=>{ if(e.target===dr) closeDrawer(); });
+  $('zwAdReply').addEventListener('submit',async(e)=>{
+    e.preventDefault(); const t=$('zwAdText').value.trim(); const r=S.all.find(x=>x.id===S.adOpenId); if(!t||!r) return;
+    try{ await reply(r,t,'admin'); $('zwAdText').value=''; r.messages=r.messages.concat([{from:'admin',text:t,at:Date.now()}]); r.status='replied'; r.unreadAdmin=false; paintDrawer(); renderAdmin(); }catch(ex){ $('zwAdSub').textContent='Could not send.'; }
+  });
+  $('zwAdText').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); $('zwAdReply').requestSubmit(); } });
+  $('zwAdClose').addEventListener('click',async()=>{ const r=S.all.find(x=>x.id===S.adOpenId); if(!r) return; const to=r.status==='closed'?'open':'closed'; await patch(r,{status:to,updatedAt:FV.serverTimestamp()}); r.status=to; paintDrawer(); renderAdmin(); });
+  $('zwAdCopy').addEventListener('click',()=>{ const r=S.all.find(x=>x.id===S.adOpenId); if(r){ try{ navigator.clipboard.writeText(r.email); $('zwAdSub').textContent='Copied '+r.email; }catch(e){} } });
+
+  function refresh(){
+    const has = !S.admin && S.mine.some(r=>r.unreadUser); const fab=$('zwFab'); fab.classList.toggle('has',has);
+    $('zwFabDot').textContent = has ? S.mine.filter(r=>r.unreadUser).length : '';
+    if(!sup.hidden) paintSup();
+    renderAdmin();
+  }
+
+  /* =================== guide =================== */
+  const ICONS = {
+    layout:'<svg viewBox="0 0 24 24"><rect x="4" y="3" width="7" height="8" rx="1.5"/><rect x="13" y="3" width="7" height="8" rx="1.5"/><rect x="4" y="13" width="7" height="8" rx="1.5"/><rect x="13" y="13" width="7" height="8" rx="1.5"/></svg>',
+    camera:'<svg viewBox="0 0 24 24"><path d="M4 8h3l1.6-2.4h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg>',
+    spark:'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>',
+    timer:'<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>',
+    save:'<svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>',
+    more:'<svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>'
+  };
+  const STEPS = [
+    { ic:'layout', t:'Pick a layout', p:'On the Photobooth page, tap a layout card. Each one has a different number of poses.', ul:['Layout C: 2 poses','Layout A: 3 poses','Layout B: 4 poses','Layout D: 6 poses (bigger strip)'] },
+    { ic:'camera', t:'Allow your camera', p:'Your browser will ask for camera access. Tap Allow. Nothing is uploaded, your photos stay on your device.', ul:['Choose Portrait or Landscape','Use good light in front of you','Keep your whole face in view for filters'] },
+    { ic:'spark', t:'Make it yours', p:'Use the tabs at the bottom of the camera to style your strip before you shoot.', ul:['Looks: photo colors','Frames: strip borders','Filters: dog ears, glasses, hearts that follow your face','Stickers: decorate your strip'] },
+    { ic:'timer', t:'Start capturing', p:'Press Start capturing. A countdown runs before every shot, so strike a pose!', ul:['Timer tab: 3, 5 or 10 seconds','Keep still until the flash','Not happy? You can retake'] },
+    { ic:'save', t:'Your strip is ready', p:'Pick a frame and add stickers on the side, then keep your strip.', ul:['Download to your phone or computer','Save to collection to see it in the Collection tab','Video clips are kept with your strip'] },
+    { ic:'more', t:'More to explore', p:'Play music while you shoot, plan your week in Notes, and edit your Profile.', ul:['Music: songs with lyrics','Notes: planner, highlighter and fonts','Found a bug? Tap Report a bug to chat with us'] }
+  ];
+  const gd=$('zwGuide'); let gi=0;
+  function paintGuide(){
+    const s=STEPS[gi]; $('gdIcon').innerHTML=ICONS[s.ic]; $('gdNum').textContent=String(gi+1).padStart(2,'0'); $('gdStep').textContent='Step '+(gi+1)+' of '+STEPS.length;
+    const t=$('gdTxt'); t.innerHTML=''; t.appendChild(h('h3',{text:s.t})); t.appendChild(h('p',{text:s.p})); const ul=h('ul'); s.ul.forEach(x=>ul.appendChild(h('li',{text:x}))); t.appendChild(ul);
+    const d=$('gdDots'); d.innerHTML=''; STEPS.forEach((_,i)=>d.appendChild(h('i',{class:i===gi?'on':''})));
+    $('gdBack').hidden = gi===0; $('gdNext').textContent = gi===STEPS.length-1 ? "Got it, let's snap!" : 'Next'; $('gdSkip').hidden = gi===STEPS.length-1;
+  }
+  function openGuide(){ gi=0; paintGuide(); gd.hidden=false; document.body.style.overflow='hidden'; }
+  function closeGuide(){ gd.hidden=true; document.body.style.overflow=''; markSeen(); }
+  function seenKey(){ return 'zwGuideSeen:'+((S.user&&S.user.uid)||window.__zwUid||'anon'); }
+  function markSeen(){ try{ localStorage.setItem(seenKey(),'1'); }catch(e){} }
+  function seen(){ try{ return localStorage.getItem(seenKey())==='1'; }catch(e){ return true; } }
+  $('gdNext').addEventListener('click',()=>{ if(gi<STEPS.length-1){ gi++; paintGuide(); } else closeGuide(); });
+  $('gdBack').addEventListener('click',()=>{ if(gi>0){ gi--; paintGuide(); } });
+  $('gdSkip').addEventListener('click',closeGuide); $('gdX').addEventListener('click',closeGuide); gd.addEventListener('click',e=>{ if(e.target===gd) closeGuide(); });
+  const th=$('tnHelp'); if(th) th.addEventListener('click',openGuide);
+  const rh=$('rdHelp'); if(rh) rh.addEventListener('click',openGuide);
+  window.zwOpenGuide=openGuide;
+  // first visit: show the guide once the person reaches the home page
+  let autoDone=false;
+  new MutationObserver(()=>{ if(!autoDone && view()==='hero' && !seen()){ autoDone=true; setTimeout(()=>{ if(view()==='hero' && gd.hidden && sup.hidden) openGuide(); },700); } }).observe(document.body,{attributes:true,attributeFilter:['data-view']});
+
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!gd.hidden) closeGuide(); else if(!sup.hidden) closeSup(); else if(!dr.hidden) closeDrawer(); } });
+
+  // redeem input: tidy pasted codes
+  const ri=$('redeemInput'); if(ri) ri.addEventListener('input',()=>{ const v=ri.value.toUpperCase().replace(/[\s-]+/g,''); if(v!==ri.value) ri.value=v; });
+  window.zwSupport={open:openSup};
+})();
+
+</script>
 </body>
 </html>
